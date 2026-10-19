@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.2.1 — 2026-10-19
+
+- Block editor: the `.asen-block-heading` label is 22px, and images inside the editor canvas are capped at 200px wide by 300px tall so large uploads don't blow out the layout while editing. Front end unchanged.
+
 ## 3.2.0 — 2026-10-19
 
 - `responsive-heading` and `responsive-paragraph` step down at 1800px, 1500px, 1024px and 640px instead of two breakpoints, with multipliers tiered by the starting size so big type shrinks more than small type. Small sizes stop shrinking on narrow screens: headings of 30px and under keep their size at 640px; paragraphs of 16px and under at 1500px and 1024px, 18px and under at 640px. Mixin signatures are unchanged; everything built on them re-renders at the new sizes.
