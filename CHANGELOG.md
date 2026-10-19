@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.2.2 — 2026-10-19
+
+- Block editor: the content canvas renders at 70% (`zoom` on `.editor-styles-wrapper`, factor in `--asen-editor-zoom`), so text and spacing read closer to their front-end proportions in the narrower editor column. The 3.2.1 image cap and the block heading label divide by the factor so they still land at 200×300px and 22px on screen. Front end unchanged.
+
 ## 3.2.1 — 2026-10-19
 
 - Block editor: the `.asen-block-heading` label is 22px, and images inside the editor canvas are capped at 200px wide by 300px tall so large uploads don't blow out the layout while editing. Front end unchanged.
