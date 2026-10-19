@@ -124,22 +124,40 @@ $site-overall-gutter-small: 7%;
 @mixin responsive-heading($font-size: 60px) {
   font-size: $font-size;
 
-  @media (max-width: $breakpoint-tablet-large) {
+  @media (max-width: 1800px) {
     @if ($font-size > 85px) {
-      font-size: $font-size * 0.7;
-    } @else if ($font-size > 40px) {
-      font-size: $font-size * 0.8;
+      font-size: $font-size * 0.75;
+    } @else if ($font-size > 50px) {
+      font-size: $font-size * 0.82;
     } @else {
       font-size: $font-size * 0.9;
     }
   }
-  @media (max-width: $breakpoint-small) {
+  @media (max-width: 1500px) {
     @if ($font-size > 85px) {
-      font-size: $font-size * 0.55;
-    } @else if ($font-size > 40px) {
-      font-size: $font-size * 0.7;
+      font-size: $font-size * 0.65;
+    } @else if ($font-size > 50px) {
+      font-size: $font-size * 0.8;
     } @else {
       font-size: $font-size * 0.85;
+    }
+  }
+  @media (max-width: $breakpoint-tablet-large) {
+    @if ($font-size > 85px) {
+      font-size: $font-size * 0.6;
+    } @else if ($font-size > 50px) {
+      font-size: $font-size * 0.75;
+    } @else {
+      font-size: $font-size * 0.8;
+    }
+  }
+  @media (max-width: $breakpoint-small) {
+    @if ($font-size > 85px) {
+      font-size: $font-size * 0.45;
+    } @else if ($font-size > 50px) {
+      font-size: $font-size * 0.6;
+    } @else if ($font-size > 30px) {
+      font-size: $font-size * 0.7;
     }
   }
 }
@@ -147,13 +165,39 @@ $site-overall-gutter-small: 7%;
 @mixin responsive-paragraph($font-size: 25px) {
   font-size: $font-size;
 
-  @media (max-width: $breakpoint-tablet-large) {
-    @if ($font-size > 22px) {
+  @media (max-width: 1800px) {
+    @if ($font-size > 25px) {
+      font-size: $font-size * 0.82;
+    } @else if ($font-size > 20px) {
+      font-size: $font-size * 0.86;
+    } @else {
+      font-size: $font-size * 0.92;
+    }
+  }
+  @media (max-width: 1500px) {
+    @if ($font-size > 25px) {
+      font-size: $font-size * 0.75;
+    } @else if ($font-size > 20px) {
+      font-size: $font-size * 0.8;
+    } @else if ($font-size > 16px) {
       font-size: $font-size * 0.9;
     }
   }
+  @media (max-width: $breakpoint-tablet-large) {
+    @if ($font-size > 25px) {
+      font-size: $font-size * 0.7;
+    } @else if ($font-size > 20px) {
+      font-size: $font-size * 0.75;
+    } @else if ($font-size > 16px) {
+      font-size: $font-size * 0.85;
+    }
+  }
   @media (max-width: $breakpoint-small) {
-    @if ($font-size > 28px) {
+    @if ($font-size > 25px) {
+      font-size: $font-size * 0.65;
+    } @else if ($font-size > 20px) {
+      font-size: $font-size * 0.7;
+    } @else if ($font-size > 18px) {
       font-size: $font-size * 0.8;
     }
   }

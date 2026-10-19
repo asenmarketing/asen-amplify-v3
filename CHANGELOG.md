@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.2.0 — 2026-10-19
+
+- `responsive-heading` and `responsive-paragraph` step down at 1800px, 1500px, 1024px and 640px instead of two breakpoints, with multipliers tiered by the starting size so big type shrinks more than small type. Small sizes stop shrinking on narrow screens: headings of 30px and under keep their size at 640px; paragraphs of 16px and under at 1500px and 1024px, 18px and under at 640px. Mixin signatures are unchanged; everything built on them re-renders at the new sizes.
+
 ## 3.1.2 — 2026-10-15
 
 - theme.json is the only color palette when Kadence Blocks is active. Kadence 3.8 saves a default palette, and Kadence then adds those colors plus WordPress's legacy default colors to the block editor, the theme.json palette and the ACF color picker swatches. The theme now reads Kadence's palette as empty. A child theme that wants Kadence's palette back: `add_filter( 'asen/allow_kadence_palette', '__return_true' )`.
