@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.2.3 — 2026-10-21
+
+- Off-canvas: the `ul.sub-menu` rules (hidden until toggled, 25px / 20px links, no text-transform) apply only inside `.off-canvas-menu` instead of to every `.sub-menu` on the site, so a child theme's own menus with sub-menus are no longer hidden or restyled by the parent.
+
 ## 3.2.2 — 2026-10-19
 
 - Block editor: the content canvas renders at 70% (`zoom` on `.editor-styles-wrapper`, factor in `--asen-editor-zoom`), so text and spacing read closer to their front-end proportions in the narrower editor column. The 3.2.1 image cap and the block heading label divide by the factor so they still land at 200×300px and 22px on screen. Front end unchanged.
