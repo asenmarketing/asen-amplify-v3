@@ -1,10 +1,11 @@
 <?php
 /**
  * Banner markup for the Asen - Banner block and for templates without the block editor (Contact page, CPT archives).
- * Build $args with asen_banner_defaults(); 'attributes' is the escaped attribute string for the wrapper.
+ * Build $args with asen_banner_defaults(); 'attributes' is the escaped attribute string for the wrapper, else 'classes' and
+ * 'style' (the overlay custom property) are printed here.
  */
 
-$attributes = $args['attributes'] ?? 'class="' . esc_attr( implode( ' ', $args['classes'] ) ) . '"';
+$attributes = $args['attributes'] ?? 'class="' . esc_attr( implode( ' ', $args['classes'] ) ) . '"' . ( empty( $args['style'] ) ? '' : ' style="' . esc_attr( $args['style'] ) . '"' );
 $slides     = array_filter( (array) $args['slides'] );
 ?>
 <header <?php echo $attributes; ?>>

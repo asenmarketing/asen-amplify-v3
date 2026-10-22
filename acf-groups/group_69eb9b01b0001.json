@@ -341,8 +341,8 @@
             "label": "Overlay",
             "name": "overlay",
             "aria-label": "",
-            "type": "radio",
-            "instructions": "Darkens the background so text stays readable. Tinted with the block's Background color (else the site default). \"Site default\" uses Builders Only \u2192 Page Banners.",
+            "type": "number",
+            "instructions": "Darkens the background so text stays readable: 0 = none, 100 = solid. Leave empty for the site default (Builders Only \u2192 Page Banners). Tinted with the block's Background color (else the site default).",
             "required": 0,
             "conditional_logic": [
                 [
@@ -358,19 +358,13 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "default": "Site default",
-                "none": "None",
-                "light": "Light",
-                "medium": "Medium",
-                "heavy": "Heavy"
-            },
-            "default_value": "default",
-            "layout": "horizontal",
-            "return_format": "value",
-            "allow_null": 0,
-            "other_choice": 0,
-            "save_other_choice": 0
+            "default_value": "",
+            "placeholder": "Site default",
+            "prepend": "",
+            "append": "%",
+            "min": 0,
+            "max": 100,
+            "step": 1
         }
     ],
     "location": [
@@ -394,7 +388,7 @@
     "acfe_autosync": [
         "json"
     ],
-    "modified": 1791840431,
+    "modified": 1792704910,
     "acfe_categories": {
         "block-fields": "Asen Core Blocks"
     }

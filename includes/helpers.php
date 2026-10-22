@@ -210,8 +210,25 @@ function asen_youtube_id( $value ) {
     return preg_match( '/^[A-Za-z0-9_-]{11}$/', $value ) ? $value : '';
 }
 
-// Banner args with defaults filled in, including the classes. Site Options (Builders Only → Page Banners) supply the default
-// title size and text alignment; a block's own settings win over them.
+// Banner overlay strength: 'default' (empty: Builders Only → Page Banners opacity), 'none', or a whole percentage 1–100.
+function asen_banner_overlay( $value ) {
+    $value = asen_banner_overlay_legacy_value( $value );
+    if ( is_numeric( $value ) ) {
+        $value = (int) round( max( 0, min( 100, (float) $value ) ) );
+        return $value ? $value : 'none';
+    }
+    return 'none' === $value ? 'none' : 'default';
+}
+
+// The Overlay field was a radio before 3.3.0; its saved values become the percentage they rendered at. Block data without
+// field-key references loads through a keyless dummy field, so the render path maps here and the editor via acf/load_value.
+function asen_banner_overlay_legacy_value( $value ) {
+    $legacy = array( 'default' => '', 'none' => 0, 'light' => 25, 'medium' => 50, 'heavy' => 75 );
+    return is_string( $value ) && isset( $legacy[ $value ] ) ? $legacy[ $value ] : $value;
+}
+
+// Banner args with defaults filled in, including the classes and the wrapper's inline custom properties. Site Options
+// (Builders Only → Page Banners) supply the default title size, text alignment and overlay opacity; a block's own settings win.
 function asen_banner_defaults( $args ) {
     $args = wp_parse_args( array_filter( $args, fn( $v ) => null !== $v && '' !== $v ), array(
         'eyebrow' => '', 'title' => '', 'subtitle' => '', 'links' => array(), 'background' => 'none', 'image' => null, 'slides' => array(),
@@ -223,7 +240,10 @@ function asen_banner_defaults( $args ) {
     $title_size   = $args['title_size'] ?: ( $option_size( 'page_banner_title_size' ) ?: 'h1' );
     $eyebrow_size = $option_size( 'page_banner_eyebrow_size' );
     $sub_size     = $option_size( 'page_banner_subtitle_size' );
+    $overlay      = 'none' !== $args['background'] ? asen_banner_overlay( $args['overlay'] ) : 'none';
 
+    $args['overlay'] = $overlay;
+    $args['style']   = is_int( $overlay ) ? '--banner-overlay-opacity:' . ( $overlay / 100 ) . ';' : '';
     $args['classes'] = array_filter( array(
         'asen-banner',
         'block-width-' . $args['container_width'],
@@ -231,7 +251,7 @@ function asen_banner_defaults( $args ) {
         $eyebrow_size ? 'has-eyebrow-' . $eyebrow_size : '',
         $sub_size ? 'has-subtitle-' . $sub_size : '',
         'none' !== $args['background'] ? 'has-media' : '',
-        'none' !== $args['overlay'] && 'none' !== $args['background'] ? 'has-overlay-' . $args['overlay'] : '',
+        'none' !== $overlay ? 'has-overlay' : '',
         ! $args['has_text_align'] && in_array( $option_align, array( 'left', 'center', 'right' ), true ) ? 'has-text-align-' . $option_align : '',
     ) );
     return $args;

@@ -227,6 +227,9 @@ add_filter('acf/load_field/name=regular_button_font_size', 'asen_populate_font_s
 add_filter('acf/load_field/name=off_canvas_font_size', 'asen_populate_heading_size_choices');
 add_filter('acf/load_field/name=off_canvas_mobile_font_size', 'asen_populate_heading_size_choices');
 
+// Asen - Banner's pre-3.3.0 Overlay radio values load into the percentage field as numbers (helpers.php).
+add_filter('acf/load_value/key=field_69eb9b01b0025', 'asen_banner_overlay_legacy_value');
+
 function asen_acf_admin_panel_permission($show) {
     $current_user              = wp_get_current_user();
     $current_user_email_domain = explode('@', $current_user->user_email);

@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.3.0 — 2026-10-22
+
+- Asen - Banner: Overlay is a percentage (0–100) instead of Site default / None / Light / Medium / Heavy, so the tint can be tuned per banner. Empty is still the site default (Builders Only → Page Banners → Default Overlay Opacity) and 0 is none. Saved radio values keep rendering at the strength they had (light 25%, medium 50%, heavy 75%) and load into the field as that number. The wrapper carries `has-overlay` plus `--banner-overlay-opacity` as an inline custom property instead of the `has-overlay-{default,light,medium,heavy}` classes; `.banner-overlay` always reads the variable.
+
 ## 3.2.3 — 2026-10-21
 
 - Off-canvas: the `ul.sub-menu` rules (hidden until toggled, 25px / 20px links, no text-transform) apply only inside `.off-canvas-menu` instead of to every `.sub-menu` on the site, so a child theme's own menus with sub-menus are no longer hidden or restyled by the parent.

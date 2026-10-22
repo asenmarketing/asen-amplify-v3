@@ -10,7 +10,7 @@
  * Viewport Width: 1400
  */
 ?>
-<!-- wp:acf/asen-banner {"name":"acf/asen-banner","data":{"eyebrow":"","title":"","subtitle":"What we offer, in one sentence.","background_type":"none","overlay":"default","__container_width":"xl","__heading_size":"h1"},"mode":"preview","lock":{"move":true,"remove":true}} /-->
+<!-- wp:acf/asen-banner {"name":"acf/asen-banner","data":{"eyebrow":"","title":"","subtitle":"What we offer, in one sentence.","background_type":"none","overlay":"","__container_width":"xl","__heading_size":"h1"},"mode":"preview","lock":{"move":true,"remove":true}} /-->
 
 <!-- wp:acf/asen-intro-block {"name":"acf/asen-intro-block","data":{"heading":"What we do","subheading":"","blurb":"A short overview of the services below.","cta_options":"0","__container_width":"lg","__font_size":"md"},"mode":"preview","style":{"typography":{"textAlign":"center"},"spacing":{"padding":{"top":"var:preset|spacing|lg","bottom":"var:preset|spacing|lg"}}}} /-->
 

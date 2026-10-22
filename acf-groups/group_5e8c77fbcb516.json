@@ -580,7 +580,7 @@
             "name": "page_banner_background_overlay_opacity",
             "aria-label": "",
             "type": "number",
-            "instructions": "Overlay strength (0\u20131) for banners whose Overlay is set to \"Site default\". Empty = 0.5.",
+            "instructions": "Overlay strength (0\u20131) for banners whose Overlay is left empty. Empty = 0.5.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -1132,7 +1132,7 @@
     "acfe_display_title": "",
     "acfe_meta": "",
     "acfe_note": "",
-    "modified": 1792070678,
+    "modified": 1792704910,
     "acfe_categories": {
         "site-option-fields": "Site Option Fields"
     }

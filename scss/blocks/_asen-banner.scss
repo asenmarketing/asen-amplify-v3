@@ -61,7 +61,8 @@
     justify-content: flex-end;
   }
 
-  // Background layer, then the overlay, then the content.
+  // Background layer, then the overlay, then the content. The block's Overlay % sets --banner-overlay-opacity on the
+  // wrapper; empty leaves the site default from Builders Only → Page Banners.
   .banner-media {
     position: absolute;
     inset: 0;
@@ -92,22 +93,11 @@
     inset: 0;
     z-index: 1;
     background-color: var(--banner-overlay-bg);
+    opacity: var(--banner-overlay-opacity);
     pointer-events: none;
   }
   &.has-background .banner-overlay {
     background-color: inherit;
-  }
-  &.has-overlay-default .banner-overlay {
-    opacity: var(--banner-overlay-opacity);
-  }
-  &.has-overlay-light .banner-overlay {
-    opacity: 0.25;
-  }
-  &.has-overlay-medium .banner-overlay {
-    opacity: 0.5;
-  }
-  &.has-overlay-heavy .banner-overlay {
-    opacity: 0.75;
   }
 
   // Title scale (block's Title Size select, or Builders Only default); eyebrow and subtitle sizes come from Builders Only.
