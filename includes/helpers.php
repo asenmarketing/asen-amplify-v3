@@ -181,6 +181,14 @@ function asen_inline_svg( $attachment_id, $recolor = false ) {
         return '';
     }
     $svg = preg_replace( array( '/<\?xml.*?\?>/s', '/<!DOCTYPE.*?>/si', '/<!--.*?-->/s', '#<script\b.*?</script>#si' ), '', file_get_contents( $file ) );
+    // The root's width/height would fix the size (the theme's CSS sizes it); a file without a viewBox gets one from them first so it still scales.
+    $svg = preg_replace_callback( '/<svg\b[^>]*>/i', function ( $m ) {
+        $tag = $m[0];
+        if ( ! preg_match( '/\sviewBox=/i', $tag ) && preg_match( '/\swidth=["\']\s*([\d.]+)(?:px)?\s*["\']/i', $tag, $w ) && preg_match( '/\sheight=["\']\s*([\d.]+)(?:px)?\s*["\']/i', $tag, $h ) ) {
+            $tag = preg_replace( '/^<svg\b/i', '<svg viewBox="0 0 ' . $w[1] . ' ' . $h[1] . '"', $tag );
+        }
+        return preg_replace( '/\s(?:width|height)=("[^"]*"|\'[^\']*\')/i', '', $tag );
+    }, $svg, 1 );
     if ( $recolor ) {
         $svg = preg_replace( array( '#<style\b.*?</style>#si', '/\sstyle=("[^"]*"|\'[^\']*\')/i' ), '', $svg );
     }

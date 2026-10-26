@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.3.2 — 2026-10-26
+
+- Asen - Dynamic Color SVG: the uploaded file's own `width` and `height` on the root `<svg>` are stripped, so the theme's CSS and the block's max width size it instead of the export's fixed pixel size. A file with no `viewBox` gets one from those values first so it still scales.
+
 ## 3.3.1 — 2026-10-26
 
 - Builders Only → Page Banners → Default Overlay Opacity is a percentage (0–100, empty = 50%) to match the banner's Overlay field. A value saved as a 0–1 decimal still works: it reads as the percentage it rendered at (so 1 is 100%, not 1%), in the option's field and on the front end, until it is re-saved.
