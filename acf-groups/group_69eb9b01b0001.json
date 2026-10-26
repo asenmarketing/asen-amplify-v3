@@ -337,6 +337,33 @@
             "mime_types": "mp4, webm"
         },
         {
+            "key": "field_69eb9b01b0026",
+            "label": "Poster Image",
+            "name": "video_poster",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Shown while the video loads, and in its place where autoplay is blocked (Low Power Mode, data saver).",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69eb9b01b0020",
+                        "operator": "==",
+                        "value": "video"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "mime_types": ""
+        },
+        {
             "key": "field_69eb9b01b0025",
             "label": "Overlay",
             "name": "overlay",
@@ -388,7 +415,7 @@
     "acfe_autosync": [
         "json"
     ],
-    "modified": 1792704910,
+    "modified": 1793045645,
     "acfe_categories": {
         "block-fields": "Asen Core Blocks"
     }

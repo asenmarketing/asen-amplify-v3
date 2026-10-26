@@ -7,6 +7,7 @@
 
 $attributes = $args['attributes'] ?? 'class="' . esc_attr( implode( ' ', $args['classes'] ) ) . '"' . ( empty( $args['style'] ) ? '' : ' style="' . esc_attr( $args['style'] ) . '"' );
 $slides     = array_filter( (array) $args['slides'] );
+$poster     = ! empty( $args['video_poster'] ) ? wp_get_attachment_image_url( $args['video_poster'], 'asen-banner-general' ) : '';
 ?>
 <header <?php echo $attributes; ?>>
     <?php if ( 'image' === $args['background'] && $args['image'] ) : ?>
@@ -27,7 +28,7 @@ $slides     = array_filter( (array) $args['slides'] );
     </div>
     <?php elseif ( 'video' === $args['background'] && ( $args['video_desktop'] || $args['video_mobile'] ) ) : ?>
     <div class="banner-media">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline<?php echo $poster ? ' poster="' . esc_url( $poster ) . '"' : ''; ?>>
             <?php if ( $args['video_mobile'] ) : ?><source src="<?php echo esc_url( $args['video_mobile'] ); ?>" media="(max-width: 800px)"><?php endif; ?>
             <?php if ( $args['video_desktop'] ) : ?><source src="<?php echo esc_url( $args['video_desktop'] ); ?>"><?php endif; ?>
         </video>

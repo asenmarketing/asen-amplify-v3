@@ -245,7 +245,7 @@ function asen_banner_overlay_opacity_legacy_value( $value ) {
 function asen_banner_defaults( $args ) {
     $args = wp_parse_args( array_filter( $args, fn( $v ) => null !== $v && '' !== $v ), array(
         'eyebrow' => '', 'title' => '', 'subtitle' => '', 'links' => array(), 'background' => 'none', 'image' => null, 'slides' => array(),
-        'video_desktop' => '', 'video_mobile' => '', 'overlay' => 'none', 'container_width' => 'xl', 'title_size' => '', 'has_text_align' => false,
+        'video_desktop' => '', 'video_mobile' => '', 'video_poster' => null, 'overlay' => 'none', 'container_width' => 'xl', 'title_size' => '', 'has_text_align' => false,
     ) );
     // Text Properties sizes are h1–h6 (the "-big" variants never had CSS, so they map to the base size) or "default".
     $option_size  = fn( $name ) => function_exists( 'get_field' ) && preg_match( '/^(h[1-6])(-big)?$/', (string) get_field( $name, 'option' ), $m ) ? $m[1] : '';

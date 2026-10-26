@@ -17,6 +17,7 @@ $args       = asen_banner_defaults( array(
     'slides'          => 'slideshow' === $background ? get_field( 'slides' ) : array(),
     'video_desktop'   => 'video' === $background ? get_field( 'video_desktop' ) : '',
     'video_mobile'    => 'video' === $background ? get_field( 'video_mobile' ) : '',
+    'video_poster'    => 'video' === $background ? get_field( 'video_poster' ) : null,
     'overlay'         => 'none' !== $background ? asen_banner_overlay( get_field( 'overlay' ) ) : 'none',
     'container_width' => get_field( '__container_width' ),
     'title_size'      => get_field( '__heading_size' ),
