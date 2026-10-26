@@ -68,6 +68,7 @@ function asen_option_css() {
 
     $off_canvas_button = $row( 'off_canvas_button_options' );
     $floating_cta      = $row( 'cta_styling' );
+    $overlay_opacity   = asen_banner_overlay_opacity_legacy_value( $opt( 'page_banner_background_overlay_opacity' ) );
 
     $vars = array(
         // Header
@@ -131,7 +132,7 @@ function asen_option_css() {
         '--banner-bg'                  => $opt( 'page_banner_background_color' ),
         '--banner-image-blend'         => $opt( 'page_banner_background_blend_mode' ),
         '--banner-overlay-bg'          => $opt( 'page_banner_background_overlay_color' ),
-        '--banner-overlay-opacity'     => is_numeric( $opt( 'page_banner_background_overlay_opacity' ) ) ? max( 0, min( 1, (float) $opt( 'page_banner_background_overlay_opacity' ) ) ) : null,
+        '--banner-overlay-opacity'     => is_numeric( $overlay_opacity ) ? max( 0, min( 100, (float) $overlay_opacity ) ) / 100 : null,
         '--banner-eyebrow-color'       => $opt( 'page_banner_eyebrow_color' ),
         '--banner-eyebrow-transform'   => $opt( 'page_banner_eyebrow_transform' ),
         '--banner-title-color'         => $opt( 'page_banner_title_color' ),

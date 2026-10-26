@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.3.1 — 2026-10-26
+
+- Builders Only → Page Banners → Default Overlay Opacity is a percentage (0–100, empty = 50%) to match the banner's Overlay field. A value saved as a 0–1 decimal still works: it reads as the percentage it rendered at (so 1 is 100%, not 1%), in the option's field and on the front end, until it is re-saved.
+
 ## 3.3.0 — 2026-10-22
 
 - Asen - Banner: Overlay is a percentage (0–100) instead of Site default / None / Light / Medium / Heavy, so the tint can be tuned per banner. Empty is still the site default (Builders Only → Page Banners → Default Overlay Opacity) and 0 is none. Saved radio values keep rendering at the strength they had (light 25%, medium 50%, heavy 75%) and load into the field as that number. The wrapper carries `has-overlay` plus `--banner-overlay-opacity` as an inline custom property instead of the `has-overlay-{default,light,medium,heavy}` classes; `.banner-overlay` always reads the variable.

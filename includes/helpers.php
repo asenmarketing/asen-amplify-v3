@@ -227,6 +227,11 @@ function asen_banner_overlay_legacy_value( $value ) {
     return is_string( $value ) && isset( $legacy[ $value ] ) ? $legacy[ $value ] : $value;
 }
 
+// Builders Only → Default Overlay Opacity was 0–1 before 3.3.1; a saved fraction reads as the percentage it rendered at (1 = 100%).
+function asen_banner_overlay_opacity_legacy_value( $value ) {
+    return is_numeric( $value ) && (float) $value <= 1 ? (int) round( (float) $value * 100 ) : $value;
+}
+
 // Banner args with defaults filled in, including the classes and the wrapper's inline custom properties. Site Options
 // (Builders Only → Page Banners) supply the default title size, text alignment and overlay opacity; a block's own settings win.
 function asen_banner_defaults( $args ) {

@@ -580,7 +580,7 @@
             "name": "page_banner_background_overlay_opacity",
             "aria-label": "",
             "type": "number",
-            "instructions": "Overlay strength (0\u20131) for banners whose Overlay is left empty. Empty = 0.5.",
+            "instructions": "Overlay strength for banners whose Overlay is left empty. Empty = 50%.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -589,14 +589,14 @@
                 "id": ""
             },
             "relevanssi_exclude": 0,
-            "default_value": "0.8",
+            "default_value": "80",
             "min": 0,
-            "max": 1,
+            "max": 100,
             "allow_in_bindings": 1,
             "placeholder": "",
-            "step": 0.05,
+            "step": 1,
             "prepend": "",
-            "append": ""
+            "append": "%"
         },
         {
             "key": "field_682f765fcd8a9",
@@ -1132,7 +1132,7 @@
     "acfe_display_title": "",
     "acfe_meta": "",
     "acfe_note": "",
-    "modified": 1792704910,
+    "modified": 1793018138,
     "acfe_categories": {
         "site-option-fields": "Site Option Fields"
     }
