@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.5.0 — 2026-10-27
+
+- Local sites keep Novamira across a WP Engine pull: `includes/mu-plugins/asen-local-novamira.php` (copied into `wp-content/mu-plugins/` by `asen_install_local_mu_plugins()` in `includes/development.php`, only when `wp_get_environment_type()` is `local`) remembers that Novamira was active in a marker file outside the web root (`app/.asen-novamira-active`) and re-activates it on the first request after a pull whose database no longer lists it. A normal Deactivate clears the marker; sites where it was never activated are untouched. Nothing runs on production.
+
 ## 3.4.0 — 2026-10-26
 
 - Asen - Banner: new Poster Image field (`video_poster`, shown when Background is Video) renders as the `<video>` element's `poster`, so the frame shows while the video loads and stays in its place where autoplay is blocked (Low Power Mode, data saver). Templates that build the banner with `asen_banner_defaults()` can pass `video_poster` (attachment ID).

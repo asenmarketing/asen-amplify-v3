@@ -39,3 +39,21 @@ function asen_debug_print($var) {
 
 	echo $result;
 }
+
+// LOCAL-ONLY MU-PLUGINS
+// Copies includes/mu-plugins/*.php into wp-content/mu-plugins on local sites (see AGENTS.md → Dev environment).
+function asen_install_local_mu_plugins() {
+	if ( wp_get_environment_type() !== 'local' ) {
+		return;
+	}
+	foreach ( glob( get_template_directory() . '/includes/mu-plugins/*.php' ) ?: array() as $source ) {
+		$target = WPMU_PLUGIN_DIR . '/' . basename( $source );
+		if ( file_exists( $target ) && filemtime( $target ) >= filemtime( $source ) ) {
+			continue;
+		}
+		if ( wp_mkdir_p( WPMU_PLUGIN_DIR ) && wp_is_writable( WPMU_PLUGIN_DIR ) ) {
+			copy( $source, $target );
+		}
+	}
+}
+asen_install_local_mu_plugins();

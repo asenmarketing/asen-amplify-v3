@@ -25,6 +25,8 @@ includes/
   gutenberg.php            the "Asen Blocks" inserter category + ACF block filters
   patterns.php             registers the "Asen" pattern category
   updates.php              self-update from GitHub releases (plugin-update-checker in includes/vendor); off on git checkouts
+  development.php          asen_debug_print() + asen_install_local_mu_plugins() (copies includes/mu-plugins/ into wp-content/mu-plugins on local sites only)
+  mu-plugins/              local-only mu-plugins the theme installs on Local sites: asen-local-novamira.php re-activates Novamira after a prod pull where it was already active
   client-editing.php       client inserter allowlist, no block unlocking / code editor / binding changes for clients, locked banner in new pages' block template
   block-bindings.php       asen/site-option bindings source (Site Options contact info) + editor data for js/editor-bindings.js
   css-layers.php           moves core/plugin stylesheets into the `vendor` cascade layer
@@ -159,7 +161,7 @@ Core Paragraph, Heading, Button, Image (and List Item from WP 7.1) can pull valu
 - Escape output from fields: `esc_html`, `esc_url`, `esc_attr`. Clients type into these fields.
 - Prefer hooks and `get_template_part( …, $args )` over editing `header.php` / `footer.php` / `page.php`.
 - Client-specific PHP (query mods, search tweaks, taxonomy UI) goes in a dedicated `includes/{prefix}-*.php` required from `functions.php`, not inline in `functions.php`.
-- No runtime filesystem writes, no `error_log()` debugging left in, no hard-coded CDN tags in `header.php` — enqueue per block.
+- No runtime filesystem writes (the exceptions are `asen_install_local_mu_plugins()` and the marker file `asen-local-novamira.php` keeps, both gated on `wp_get_environment_type()` being `local`), no `error_log()` debugging left in, no hard-coded CDN tags in `header.php` — enqueue per block.
 - `asen_debug_print()` in `includes/development.php` is the sanctioned dump helper; remove calls before commit.
 
 ## Site Options (ACF option pages)
@@ -195,6 +197,7 @@ Older client sites are forks of amplify-lite and stay that way. Rules for mainta
 - Sites run in **Local** (`*.local`). Theme path: `app/public/wp-content/themes/asen-amplify-v3/`. The dev site runs it the way client sites do: `themes/asen-amplify-child/` is a clone of the starter repo and is the active theme, with WP-SCSS Base Location set to Child Theme. Parent SCSS changes therefore compile into the **child's** `css/index.css`; the parent's own `css/` is stale and unused.
 - WP-SCSS recompiles on each page load while `always_recompile` is on; compile errors show for logged-in users. Check the child's `css/index.css` mtime if styles look stale.
 - Local's push to WP Engine never sends `.git` folders or `wp-config.php`, plus whatever `app/public/.wpe-push-ignore` lists (on this site: Novamira and Query Monitor, which must not reach a server).
+- Pulling from WP Engine brings down a database where Novamira is inactive. `includes/mu-plugins/asen-local-novamira.php` (copied into `wp-content/mu-plugins/` by the theme on the first local request, and re-copied whenever the theme's file is newer) remembers that Novamira was active on this local in a marker file outside the web root (`app/.asen-novamira-active`, next to `public/`, so a pull never touches it) and calls `activate_plugin()` on the first request after a pull that lacks it. Nothing is forced: a site where Novamira was never activated stays that way, and a normal Deactivate clears the marker. Edit the theme copy, never the installed one.
 - Some locals expose a **Novamira MCP** server (REST-first WP control). It can run PHP/WP-CLI, read/write theme files, and inspect options — use it for "what is this option set to" questions instead of guessing. Native Gutenberg content writes through it require the Block Editor Queue admin page to be open in a browser.
 - Query Monitor is active locally; keep an eye on it after adding queries.
 - Keep a page at `/asen-v3-test/` on the dev site with one instance of every converted block plus core paragraph/button and the patterns; it's the visual regression check (not in the repo — content lives in that site's DB).
