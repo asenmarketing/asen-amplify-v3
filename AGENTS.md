@@ -203,6 +203,34 @@ Older client sites are forks of amplify-lite and stay that way. Rules for mainta
 - Keep a page at `/asen-v3-test/` on the dev site with one instance of every converted block plus core paragraph/button and the patterns; it's the visual regression check (not in the repo — content lives in that site's DB).
 - WP caches the theme's `patterns/` file list (and `theme.json`). A new pattern file won't register until the cache clears — set `define( 'WP_DEVELOPMENT_MODE', 'theme' );` in the local `wp-config.php`, or run `wp_get_theme()->delete_pattern_cache()` once. Production clears it on theme update.
 
+### Local by Flywheel: PHP OpenSSL config fix (Novamira key generation)
+
+**Symptom:** Novamira authorization fails with "could not create the OAuth signing keys for this site". The site's PHP error log shows `openssl_pkey_new failed ... error:02001002:system library:fopen:No such file or directory`. Any `openssl_pkey_new()` call on the site fails the same way.
+
+**Cause:** Local's PHP 8.1.x and 8.2.23 builds are compiled against Homebrew `openssl@1.1`, with the config directory hard-coded to `/opt/homebrew/etc/openssl@1.1`. Homebrew no longer ships openssl@1.1, so on most Macs that directory (and its `openssl.cnf`) doesn't exist. PHP-FPM clears its environment, so exporting `OPENSSL_CONF` in a shell never reaches the site. Local's PHP 8.2.27+ and 8.4 builds use `openssl@3`, which is normally installed, so sites on those versions work.
+
+**Fix (once per Mac, no sudo, no restart):**
+
+```bash
+mkdir -p /opt/homebrew/etc/openssl@1.1 && cp /etc/ssl/openssl.cnf /opt/homebrew/etc/openssl@1.1/openssl.cnf
+```
+
+Covers every existing and future site on the affected PHP versions. Re-run the Novamira authorization afterwards. Use the macOS `/etc/ssl/openssl.cnf`, not the openssl@3 one: the openssl@3 config has provider sections that OpenSSL 1.1 can't parse.
+
+**Check which Local PHP builds are affected (Apple Silicon paths):**
+
+```bash
+for p in "$HOME/Library/Application Support/Local/lightning-services"/php-*/bin/darwin-arm64/bin/php; do "$p" -n -r '$l = openssl_get_cert_locations(); echo PHP_VERSION, " ", $l["default_default_cert_area"] ?? $l["default_cert_area"], " ", @openssl_pkey_new() ? "OK" : "FAIL", PHP_EOL;'; done
+```
+
+**Per-site fallback** if you can't touch the Homebrew tree: generate the keys from WP-CLI with an explicit config, using Local's bundled PHP and the site's own php.ini (find `<siteId>` under `~/Library/Application Support/Local/run/`):
+
+```bash
+OPENSSL_CONF=/etc/ssl/openssl.cnf "$HOME/Library/Application Support/Local/lightning-services/php-8.1.29+0/bin/darwin-arm64/bin/php" -c "$HOME/Library/Application Support/Local/run/<siteId>/conf/php/php.ini" /Applications/Local.app/Contents/Resources/extraResources/bin/wp-cli/wp-cli.phar --path="<site folder>/app/public" novamira oauth-keys generate
+```
+
+**Alternative, per PHP version:** add `env[OPENSSL_CONF] = "/etc/ssl/openssl.cnf"` to `~/Library/Application Support/Local/lightning-services/php-<version>/conf/php-fpm.d/www.conf.hbs` (applies to new sites) and to each existing site's `conf/php/php-fpm.d/www.conf.hbs`, then restart those sites in Local.
+
 ## Known issues (fix opportunistically, track in MODERNIZATION.md)
 
 - The Dynamic Color SVG block inlines the file's markup. When no text color is set it keeps the file's own `<style>` rules (Illustrator exports colors that way), and those rules apply page-wide — two SVGs sharing `.cls-1` will fight. Setting a text color strips them.

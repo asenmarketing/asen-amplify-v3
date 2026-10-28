@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.5.1 — 2026-10-28
+
+- Docs only: AGENTS.md (Dev environment) documents the Local by Flywheel PHP OpenSSL config fix for Novamira key generation. Local's PHP 8.1.x and 8.2.23 builds look for `openssl.cnf` in `/opt/homebrew/etc/openssl@1.1`, which Homebrew no longer ships, so `openssl_pkey_new()` fails and Novamira authorization reports "could not create the OAuth signing keys for this site". The entry covers the one-time per-Mac fix, how to check which bundled PHP builds are affected, and a per-site WP-CLI fallback. No code changes.
+
 ## 3.5.0 — 2026-10-27
 
 - Local sites keep Novamira across a WP Engine pull: `includes/mu-plugins/asen-local-novamira.php` (copied into `wp-content/mu-plugins/` by `asen_install_local_mu_plugins()` in `includes/development.php`, only when `wp_get_environment_type()` is `local`) remembers that Novamira was active in a marker file outside the web root (`app/.asen-novamira-active`) and re-activates it on the first request after a pull whose database no longer lists it. A normal Deactivate clears the marker; sites where it was never activated are untouched. Nothing runs on production.
