@@ -1,6 +1,6 @@
 header.site-header {
   position: fixed;
-  top: 0;
+  top: var(--asen-announcement-bar-height);
   z-index: 50;
   width: 100%;
   padding: 0 $header-gutter-desktop;
@@ -29,11 +29,11 @@ header.site-header {
   }
 
   body.admin-bar & {
-    top: 32px;
+    top: calc(32px + var(--asen-announcement-bar-height));
 
     @media screen and (max-width: 782px) {
       & {
-        top: 46px;
+        top: calc(46px + var(--asen-announcement-bar-height));
       }
     }
   }

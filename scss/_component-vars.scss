@@ -4,6 +4,7 @@
 :root {
   // Header
   --header-height: #{$header-height-desktop};
+  --asen-announcement-bar-height: 0px; // Asen Pop-Ups sets this on <html> while its announcement banner is showing
   --header-max-width: #{$site-overall-max-width};
   --header-logo-height: auto;
   --header-bg: #{$color-white};

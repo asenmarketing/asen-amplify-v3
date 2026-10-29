@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.6.0 — 2026-10-29
+
+- Room for the Asen Pop-Ups announcement banner (plugin 1.8.0+): `--asen-announcement-bar-height` (default `0px` in `_component-vars.scss`) is added to the fixed header's `top` and the body's `padding-top` / `.site-container` min-height in every header position mode, including the admin-bar offsets. The plugin sets it on `<html>` while its banner is pinned above the header and clears it on dismiss, so the header slides down under the bar and back up without theme JS. New CSS custom property, hence minor.
+
 ## 3.5.1 — 2026-10-28
 
 - Docs only: AGENTS.md (Dev environment) documents the Local by Flywheel PHP OpenSSL config fix for Novamira key generation. Local's PHP 8.1.x and 8.2.23 builds look for `openssl.cnf` in `/opt/homebrew/etc/openssl@1.1`, which Homebrew no longer ships, so `openssl_pkey_new()` fails and Novamira authorization reports "could not create the OAuth signing keys for this site". The entry covers the one-time per-Mac fix, how to check which bundled PHP builds are affected, and a per-site WP-CLI fallback. No code changes.

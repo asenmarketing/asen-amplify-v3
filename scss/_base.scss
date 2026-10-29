@@ -28,15 +28,16 @@ a {
 }
 
 // The header is fixed, so the page starts below it. The theme handles the admin-bar offset itself
-// (site_remove_admin_login_header() drops core's bump), hence the 32px / 46px.
+// (site_remove_admin_login_header() drops core's bump), hence the 32px / 46px. --asen-announcement-bar-height is 0px
+// unless the Asen Pop-Ups announcement banner is pinned above the header.
 body {
-  padding-top: var(--header-height);
+  padding-top: calc(var(--header-height) + var(--asen-announcement-bar-height));
 }
 body.admin-bar {
-  padding-top: calc(var(--header-height) + 32px);
+  padding-top: calc(var(--header-height) + 32px + var(--asen-announcement-bar-height));
 
   @media screen and (max-width: 782px) {
-    padding-top: calc(var(--header-height) + 46px);
+    padding-top: calc(var(--header-height) + 46px + var(--asen-announcement-bar-height));
   }
 }
 
@@ -44,37 +45,37 @@ body.admin-bar {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height) - var(--asen-announcement-bar-height));
 
   body.admin-bar & {
-    min-height: calc(100vh - var(--header-height) - 32px);
+    min-height: calc(100vh - var(--header-height) - 32px - var(--asen-announcement-bar-height));
 
     @media screen and (max-width: 782px) {
-      min-height: calc(100vh - var(--header-height) - 46px);
+      min-height: calc(100vh - var(--header-height) - 46px - var(--asen-announcement-bar-height));
     }
   }
 }
 
 // Header Position: Static (body class from includes/body-class-mods.php).
 body.has-static-header {
-  padding-top: 0;
+  padding-top: var(--asen-announcement-bar-height);
 
   .site-container {
-    min-height: 100vh;
+    min-height: calc(100vh - var(--asen-announcement-bar-height));
   }
 
   &.admin-bar {
-    padding-top: 32px;
+    padding-top: calc(32px + var(--asen-announcement-bar-height));
 
     .site-container {
-      min-height: calc(100vh - 32px);
+      min-height: calc(100vh - 32px - var(--asen-announcement-bar-height));
     }
 
     @media screen and (max-width: 782px) {
-      padding-top: 46px;
+      padding-top: calc(46px + var(--asen-announcement-bar-height));
 
       .site-container {
-        min-height: calc(100vh - 46px);
+        min-height: calc(100vh - 46px - var(--asen-announcement-bar-height));
       }
     }
   }
