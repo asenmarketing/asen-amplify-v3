@@ -4,10 +4,10 @@
     $slug = $post_type->name;
     $singular_title = $post_type->labels->singular_name;
     $layout = get_field( $slug . '_archive_items_layout', 'option' );
-    // Image slot widths from _archives.scss (32% / 48% / 100% of a 1600px max container).
+    // Image slot widths from _archives.scss (32% / 48% / 100% of a 1600px max container; 86vw on phones after the 7% gutters).
     $image_sizes = array(
-        'three-columns' => '(max-width: 640px) 100vw, (max-width: 1024px) 48vw, (max-width: 1600px) 32vw, 512px',
-        'two-columns'   => '(max-width: 640px) 100vw, (max-width: 1600px) 48vw, 768px',
+        'three-columns' => '(max-width: 640px) 86vw, (max-width: 1024px) 48vw, (max-width: 1600px) 32vw, 512px',
+        'two-columns'   => '(max-width: 640px) 86vw, (max-width: 1600px) 48vw, 768px',
     )[ $layout ] ?? '';
 ?>
 <article class="asen-archive grid-layout-<?php echo esc_attr( $layout ); ?>">

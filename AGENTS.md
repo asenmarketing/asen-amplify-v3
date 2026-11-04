@@ -120,11 +120,11 @@ $classes = [ 'asen-example', 'asen-example-' . $block['id'], $block['className']
 
 ## Performance
 
-- **Images go through `wp_get_attachment_image()`** so they carry width/height (no layout shift), srcset, and WP's loading heuristics: the first content image over 50,000px² gets `fetchpriority="high"` (the banner image, in practice), later ones `loading="lazy"`. Pass a `sizes` that matches the slot whenever the image isn't full width — WP's default claims the image's own width (1024px for `large`), so a card in a 3-up grid would download 2–3× the pixels. Theme auto-sizes (`sizes="auto"`) stays off (`functions.php`).
+- **Images go through `wp_get_attachment_image()`** so they carry width/height (no layout shift), srcset, and WP's loading heuristics: the first content image over 50,000px² gets `fetchpriority="high"` (the banner image, in practice), later ones `loading="lazy"`. Pass a `sizes` that matches the slot whenever the image isn't full width — WP's default claims the image's own width (1024px for `large`), so a card in a 3-up grid would download 2–3× the pixels. On phones content is `86vw` wide (7% gutters below 768px), not `100vw`: on a 3× phone that's the difference between the 1024px and 1536px files. Theme auto-sizes (`sizes="auto"`) stays off (`functions.php`).
 - Header chrome (the logo) uses `asen_image_without_priority()`: a large logo would otherwise be the first big image on the page and take `fetchpriority="high"` from the banner. Images hidden at load (slideshow slides after the first) get `fetchpriority="low"`, which also keeps them from being lazy-loaded.
 - JPEG uploads are stored as WebP at quality 75 (`theme.php`); existing images convert when their sizes are regenerated. PNGs stay PNG.
 - Anything Splide (or other JS) builds must not reflow the page when it mounts: lay out the pre-mount markup at its mounted size (see the collection carousel and banner slideshow in `_collection.scss` / `_asen-banner.scss`). Splide's own CSS hides an unmounted carousel; the theme shows it, since a hidden banner slideshow holds back the page's largest paint until the footer scripts run.
-- Third-party embeds load on interaction: the Video Popup builds its iframe on click, and core Embed YouTube renders as a facade (`includes/embeds.php`). Do the same for any new embed.
+- Third-party embeds load on interaction: the Video Popup builds its iframe on click, and core Embed YouTube renders as a facade (`includes/embeds.php`). Do the same for any new embed. The Location Map loads Leaflet and its tiles only when the map is within 500px of the viewport (its `view.js` injects the registered `leaflet` script from `data-leaflet`; `leaflet` is not a dependency of the view script).
 
 ## Client editing
 

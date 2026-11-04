@@ -3,6 +3,13 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.8.0 — 2026-11-04
+
+Mobile performance.
+
+- **Phone image sizes:** below 640px, collection cards, CPT archive grids and the Icon Grid tell the browser their image is `86vw` wide (the 7% side gutters), and carousel cards `86vw` minus the arrow padding, instead of `100vw`. On a 3× phone a grid card downloads the 1024px file instead of the 1536px one, and a carousel card the 768px one. The alternating layout's stacked rows (below 768px) are `86vw` too.
+- **Location Map:** Leaflet's script and the map tiles load only when the map comes within 500px of the viewport, instead of on page load. The map's box keeps its size meanwhile. Leaflet is no longer a dependency of the block's view script; `view.js` loads the registered `leaflet` script itself, so a child theme that re-registers `leaflet` still gets its own copy.
+
 ## 3.7.0 — 2026-11-04
 
 Front-end performance pass (ported from a v2 site audit). See AGENTS.md → Performance.

@@ -16,11 +16,13 @@ $item_args = $args['item_args'] ?? array();
 $lead      = $args['lead'] ?? null;
 
 // Card image `sizes` from the layout's slot width (breakpoints match _collection.scss and the Splide options below, capped
-// at the xxl container), so the browser picks a fitting srcset candidate instead of the 1024px+ default.
+// at the xxl container), so the browser picks a fitting srcset candidate instead of the 1024px+ default. Phones: the content
+// area is 86vw (7% gutters, _measurements.scss), less the carousel's 3rem arrow padding per side.
 $per_row = fn( $n, $vw ) => 1 === $n ? $vw . 'vw' : 'calc(' . $vw . 'vw / ' . $n . ')';
+$phone   = 'carousel' === $layout ? 'calc(86vw - 96px)' : '86vw';
 $sizes   = 'alternating' === $layout
-    ? '(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 720px'
-    : '(max-width: 640px) 100vw, (max-width: 1024px) ' . $per_row( (int) ceil( $columns / 2 ), 100 ) . ', (max-width: 1440px) ' . $per_row( $columns, 100 ) . ', ' . (int) ceil( 1440 / $columns ) . 'px';
+    ? '(max-width: 768px) 86vw, (max-width: 1440px) 50vw, 720px'
+    : '(max-width: 640px) ' . $phone . ', (max-width: 1024px) ' . $per_row( (int) ceil( $columns / 2 ), 100 ) . ', (max-width: 1440px) ' . $per_row( $columns, 100 ) . ', ' . (int) ceil( 1440 / $columns ) . 'px';
 $item_args += array( 'image_sizes' => $sizes );
 if ( $lead ) {
     $lead['args'] = ( $lead['args'] ?? array() ) + array( 'image_sizes' => $sizes );

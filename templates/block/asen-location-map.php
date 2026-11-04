@@ -36,6 +36,10 @@ if ( $marker_url ) {
     }
 }
 
+// view.js loads Leaflet itself when the map nears the viewport; the registered handle's URL keeps a child's override.
+$leaflet     = wp_scripts()->query( 'leaflet' );
+$leaflet_src = $leaflet ? add_query_arg( 'ver', $leaflet->ver, $leaflet->src ) : '';
+
 $classes = array_filter( array( 'asen-location-map', $full_width ? 'is-full-width' : '', 'block-width-' . $container_width ) );
 ?>
 <section <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) ); ?>>
@@ -49,7 +53,7 @@ $classes = array_filter( array( 'asen-location-map', $full_width ? 'is-full-widt
         <?php if ( $coords ) : ?>
         <div class="map" data-lat="<?php echo esc_attr( $coords['lat'] ); ?>" data-lon="<?php echo esc_attr( $coords['lon'] ); ?>"
             data-address="<?php echo esc_attr( $address ); ?>" data-name="<?php echo esc_attr( $name ); ?>" data-directions="<?php echo esc_url( $directions ); ?>"
-            data-tiles="<?php echo esc_attr( $tiles['url'] ); ?>" data-attribution="<?php echo esc_attr( $tiles['attribution'] ); ?>" data-max-zoom="<?php echo (int) $tiles['max_zoom']; ?>"
+            data-leaflet="<?php echo esc_url( $leaflet_src ); ?>" data-tiles="<?php echo esc_attr( $tiles['url'] ); ?>" data-attribution="<?php echo esc_attr( $tiles['attribution'] ); ?>" data-max-zoom="<?php echo (int) $tiles['max_zoom']; ?>"
             <?php if ( $marker_url ) : ?>data-marker="<?php echo esc_url( $marker_url ); ?>" data-marker-width="<?php echo (int) $marker_size[0]; ?>" data-marker-height="<?php echo (int) $marker_size[1]; ?>"<?php endif; ?>>
             <?php if ( is_admin() ) : ?><p class="map-placeholder">Map renders on the front end.</p><?php endif; ?>
         </div>
