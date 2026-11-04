@@ -86,6 +86,16 @@
     .splide__pagination {
       bottom: $gap-size-md;
     }
+
+    // The first slide shows in place before Splide mounts. Splide's CSS hides the carousel until then, which would hold
+    // the banner image (usually the page's largest paint) back until the footer scripts run.
+    &:not(.is-initialized) {
+      visibility: visible;
+
+      .splide__slide {
+        width: 100%;
+      }
+    }
   }
 
   .banner-overlay {

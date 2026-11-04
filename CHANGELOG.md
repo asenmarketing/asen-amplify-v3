@@ -3,6 +3,19 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.7.0 — 2026-11-04
+
+Front-end performance pass (ported from a v2 site audit). See AGENTS.md → Performance.
+
+- **Hero priority:** the header logo renders through the new `asen_image_without_priority()`, so a logo over 50,000px² no longer takes the page's one `fetchpriority="high"` from the banner image. Banner slideshow slides after the first get `fetchpriority="low"`.
+- **Image sizes:** collection cards (team, services, products, featured blogs, the blog CTA tile), CPT archive grids and the Icon Grid pass a `sizes` attribute for their actual slot width instead of WP's 1024px default, so browsers pick a smaller srcset file. Item templates receive it as `$args['image_sizes']`.
+- **WebP:** JPEG uploads are stored as WebP (full size and sub-sizes) at quality 75, via `image_editor_output_format`; WP keeps the uploaded JPEG as the original. Existing images convert when their sizes are regenerated. Falls back to JPEG where the server can't write WebP.
+- **YouTube embeds:** a core Embed block with a YouTube URL renders a thumbnail + play button (`includes/embeds.php`, `js/youtube-facade.js`); the youtube-nocookie iframe, with the URL's start time, loads on click. The 1280px thumbnail is used when the video has one (checked once per video, cached).
+- **Carousel layout shift:** before Splide mounts, collection carousels show their first page in one row at Splide's slide width (instead of every slide in a multi-row grid that collapsed on mount), plus a pagination placeholder where the dots will appear (`has-pages-lg|md|sm` classes). They and banner slideshows are visible before mount instead of hidden by Splide's CSS, so a slideshow banner image can paint before the footer scripts run. The editor preview shows the carousel's first page the same way.
+- **Head:** preconnect hints for the Font Snippets' Typekit and Font Awesome kit hosts are added automatically; WP's emoji detection script and styles are removed.
+- **Fewer render-blocking requests:** small stylesheets from wp-content / wp-includes (plugin CSS, core block CSS, Splide, Leaflet) print inline inside `@layer vendor` instead of as `@import`s, capped at 20KB per file and 50KB per page (filter `asen/inline_vendor_css_limits`).
+- **Leaflet** (Location Map) is self-hosted in `js/vendor/leaflet` (1.9.4, verified against the previous SRI hashes) instead of loaded from unpkg.
+
 ## 3.6.0 — 2026-10-29
 
 - Room for the Asen Pop-Ups announcement banner (plugin 1.8.0+): `--asen-announcement-bar-height` (default `0px` in `_component-vars.scss`) is added to the fixed header's `top` and the body's `padding-top` / `.site-container` min-height in every header position mode, including the admin-bar offsets. The plugin sets it on `<html>` while its banner is pinned above the header and clears it on dismiss, so the header slides down under the bar and back up without theme JS. New CSS custom property, hence minor.

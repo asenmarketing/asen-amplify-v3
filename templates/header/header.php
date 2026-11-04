@@ -13,7 +13,7 @@ $header_classes = array(
         <div class="logo">
             <a href="<?php echo esc_url( site_url( '/', 'https' ) ); ?>" title="<?php echo esc_attr( $site_name ); ?>">
                 <?php if ( $logo_id ) : ?>
-                <?php echo wp_get_attachment_image( $logo_id, 'large' ); ?>
+                <?php echo asen_image_without_priority( $logo_id, 'large' ); ?>
                 <?php else : ?>
                 Add header logo!
                 <?php endif; ?>

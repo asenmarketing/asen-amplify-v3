@@ -12,7 +12,7 @@ $blurb      = get_field( 'service_blurb', $item->ID );
 ?>
 <article class="service-item">
     <?php if ( 'image' === $display && $image ) : ?>
-    <div class="item-media"><?php echo wp_get_attachment_image( $image, 'large' ); ?></div>
+    <div class="item-media"><?php echo wp_get_attachment_image( $image, 'large', false, array( 'sizes' => $args['image_sizes'] ?? '' ) ); ?></div>
     <?php elseif ( 'icon' === $display && $icon ) : ?>
     <div class="item-media is-icon"><?php echo $icon; ?></div>
     <?php endif; ?>

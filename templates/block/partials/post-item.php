@@ -8,7 +8,7 @@ $category = asen_get_primary_category_meta( $item->ID );
 ?>
 <a class="post-item" href="<?php echo esc_url( get_permalink( $item ) ); ?>">
     <?php if ( has_post_thumbnail( $item ) ) : ?>
-    <div class="item-media"><?php echo get_the_post_thumbnail( $item, 'large' ); ?></div>
+    <div class="item-media"><?php echo get_the_post_thumbnail( $item, 'large', array( 'sizes' => $args['image_sizes'] ?? '' ) ); ?></div>
     <?php endif; ?>
     <div class="item-copy">
         <p class="item-meta">

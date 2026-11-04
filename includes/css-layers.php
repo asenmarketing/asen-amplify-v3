@@ -26,9 +26,55 @@ function asen_layer_third_party_styles( $tag, $handle, $href, $media ) {
     }
     $url   = esc_url_raw( html_entity_decode( $href, ENT_QUOTES | ENT_HTML5 ) );
     $media = ( $media && 'all' !== $media ) ? ' ' . esc_attr( $media ) : '';
+    $css   = asen_inlinable_local_css( $url );
+    if ( null !== $css ) {
+        $css = '@layer vendor{' . $css . '}';
+        return sprintf( "<style id=\"%s-css\">%s</style>\n", esc_attr( $handle ), $media ? '@media' . $media . '{' . $css . '}' : $css );
+    }
     return sprintf( "<style id=\"%s-css\">@import url(\"%s\") layer(vendor)%s;</style>\n", esc_attr( $handle ), $url, $media );
 }
 add_filter( 'style_loader_tag', 'asen_layer_third_party_styles', 20, 4 );
+
+// Small stylesheets from this site's wp-content / wp-includes are printed inline rather than @imported: one less
+// render-blocking request each, for a few KB of uncached HTML. Capped per file and per page (asen/inline_vendor_css_limits);
+// a file that has its own @import stays an @import. Relative url()s are rewritten against the file's URL.
+function asen_inlinable_local_css( $url ) {
+    static $budget = null;
+    $limits = apply_filters( 'asen/inline_vendor_css_limits', array( 'file' => 20000, 'page' => 50000 ) );
+    $budget = $budget ?? (int) $limits['page'];
+
+    $path = strtok( $url, '?#' );
+    $file = null;
+    foreach ( array( content_url( '/' ) => WP_CONTENT_DIR, includes_url() => ABSPATH . WPINC ) as $base => $dir ) {
+        $relative = preg_replace( '#^https?:#', '', $path );
+        $base     = preg_replace( '#^https?:#', '', $base );
+        if ( str_starts_with( $relative, $base ) ) {
+            $file = realpath( $dir . '/' . substr( $relative, strlen( $base ) ) );
+            $file = $file && str_starts_with( $file, realpath( $dir ) . '/' ) ? $file : null;
+            break;
+        }
+    }
+    if ( ! $file || ! str_ends_with( $file, '.css' ) || ! is_readable( $file ) ) {
+        return null;
+    }
+    $size = filesize( $file );
+    if ( $size > (int) $limits['file'] || $size > $budget ) {
+        return null;
+    }
+    $css = (string) file_get_contents( $file );
+    if ( false !== stripos( $css, '@import' ) || false !== stripos( $css, '</style' ) ) {
+        return null;
+    }
+    $budget -= $size;
+
+    $dir_url = dirname( $path ) . '/';
+    $css     = preg_replace( array( '/@charset\s+[^;]+;/i', '~/\*#\s*sourceMappingURL=[^*]*\*/~' ), '', $css );
+    return preg_replace_callback(
+        '~url\(\s*([\'"]?)(?!data:|https?:|//|/|#)([^\'")]+)\1\s*\)~i',
+        fn( $m ) => 'url(' . $m[1] . $dir_url . $m[2] . $m[1] . ')',
+        $css
+    );
+}
 
 // Inline styles (global-styles presets, core per-block CSS, plugin variables) get wrapped in `vendor` right before they print.
 function asen_layer_inline_styles() {

@@ -15,6 +15,17 @@ $template  = $args['item_template'];
 $item_args = $args['item_args'] ?? array();
 $lead      = $args['lead'] ?? null;
 
+// Card image `sizes` from the layout's slot width (breakpoints match _collection.scss and the Splide options below, capped
+// at the xxl container), so the browser picks a fitting srcset candidate instead of the 1024px+ default.
+$per_row = fn( $n, $vw ) => 1 === $n ? $vw . 'vw' : 'calc(' . $vw . 'vw / ' . $n . ')';
+$sizes   = 'alternating' === $layout
+    ? '(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 720px'
+    : '(max-width: 640px) 100vw, (max-width: 1024px) ' . $per_row( (int) ceil( $columns / 2 ), 100 ) . ', (max-width: 1440px) ' . $per_row( $columns, 100 ) . ', ' . (int) ceil( 1440 / $columns ) . 'px';
+$item_args += array( 'image_sizes' => $sizes );
+if ( $lead ) {
+    $lead['args'] = ( $lead['args'] ?? array() ) + array( 'image_sizes' => $sizes );
+}
+
 if ( ! $items ) {
     if ( is_admin() ) {
         echo '<p>Select items to display.</p>';
@@ -39,8 +50,15 @@ if ( 'carousel' === $layout ) :
             640  => array( 'perPage' => 1 ),
         ),
     ), $args['splide'] ?? array() );
+
+    // Breakpoints where the carousel will have more than one page, i.e. where Splide will show the dots.
+    $count     = count( $items ) + ( $lead ? 1 : 0 );
+    $per_page  = array( 'lg' => $options['perPage'], 'md' => $options['breakpoints'][1024]['perPage'] ?? $options['perPage'] );
+    $per_page += array( 'sm' => $options['breakpoints'][640]['perPage'] ?? $per_page['md'] );
+    $pages_at  = $options['pagination'] ? array_keys( array_filter( $per_page, fn( $n ) => $count > (int) $n ) ) : array();
+    $classes   = array_merge( array( 'collection', 'collection-carousel', 'splide', 'has-columns-' . $columns ), array_map( fn( $bp ) => 'has-pages-' . $bp, $pages_at ) );
 ?>
-<div class="collection collection-carousel splide has-columns-<?php echo $columns; ?>" aria-label="<?php echo esc_attr( $args['label'] ?? '' ); ?>" data-splide="<?php echo esc_attr( wp_json_encode( $options ) ); ?>">
+<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" aria-label="<?php echo esc_attr( $args['label'] ?? '' ); ?>" data-splide="<?php echo esc_attr( wp_json_encode( $options ) ); ?>">
     <div class="splide__track">
         <ul class="splide__list">
             <?php if ( $lead ) : ?>
@@ -51,6 +69,9 @@ if ( 'carousel' === $layout ) :
             <?php endforeach; ?>
         </ul>
     </div>
+    <?php if ( $pages_at ) : // Splide fills this placeholder; until it mounts, one stand-in dot holds the row's height ?>
+    <ul class="splide__pagination"><li aria-hidden="true"><span class="splide__pagination__page"></span></li></ul>
+    <?php endif; ?>
 </div>
 <?php else : ?>
 <ul class="collection collection-<?php echo esc_attr( $layout ); ?> has-columns-<?php echo $columns; ?>">

@@ -24,7 +24,7 @@ $classes = array( 'asen-icon-grid', 'block-width-' . $container_width );
                 <?php if ( $has_link ) : ?>
                 <a href="<?php echo esc_url( $link ); ?>" title="<?php echo esc_attr( $text ?: 'Learn More' ); ?>"<?php echo '_blank' === get_sub_field( 'link_target' ) ? ' target="_blank" rel="noopener"' : ''; ?>>
                 <?php endif; ?>
-                    <?php echo wp_get_attachment_image( get_sub_field( 'icon' ), 'large' ); ?>
+                    <?php echo wp_get_attachment_image( get_sub_field( 'icon' ), 'large', false, array( 'sizes' => '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1440px) 25vw, 20vw' ) ); ?>
                     <?php if ( $text ) : ?>
                     <p class="text"><?php echo esc_html( $text ); ?></p>
                     <?php endif; ?>

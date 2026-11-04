@@ -5,7 +5,7 @@
 ?>
 <div class="post-item is-cta">
     <?php if ( ! empty( $args['image_id'] ) ) : ?>
-    <div class="item-media"><?php echo wp_get_attachment_image( $args['image_id'], 'large' ); ?></div>
+    <div class="item-media"><?php echo wp_get_attachment_image( $args['image_id'], 'large', false, array( 'sizes' => $args['image_sizes'] ?? '' ) ); ?></div>
     <?php endif; ?>
     <div class="item-copy">
         <?php if ( ! empty( $args['heading'] ) ) : ?>

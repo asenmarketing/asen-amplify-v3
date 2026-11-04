@@ -42,15 +42,12 @@
   }
 }
 
-// Grid, and the carousel's fallback before Splide mounts (editor preview, no JS).
-.collection-grid,
-.collection-carousel:not(.is-initialized) .splide__list {
+.collection-grid {
   display: grid;
   gap: $gap-size-xl $gap-size-lg;
 }
 @for $i from 1 through 6 {
-  .collection-grid.has-columns-#{$i},
-  .collection-carousel.has-columns-#{$i}:not(.is-initialized) .splide__list {
+  .collection-grid.has-columns-#{$i} {
     grid-template-columns: repeat($i, minmax(0, 1fr));
 
     @media (max-width: $breakpoint-tablet-large) {
@@ -58,6 +55,50 @@
     }
     @media (max-width: $breakpoint-small) {
       grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
+// Carousel before Splide mounts (also the editor preview and no-JS): its first page as one row at the slide width and gap
+// Splide will set (perPage and breakpoints from collection.php), the rest clipped by the track. Shown right away instead
+// of Splide's hidden-until-mounted, and mounting no longer collapses a multi-row grid and shifts the page.
+.collection-carousel:not(.is-initialized) {
+  visibility: visible;
+
+  .splide__list {
+    display: grid;
+    grid-auto-flow: column;
+    gap: $gap-size-lg;
+  }
+}
+@for $i from 1 through 6 {
+  $half: ceil($i * 0.5);
+  .collection-carousel.has-columns-#{$i}:not(.is-initialized) .splide__list {
+    grid-auto-columns: calc((100% - #{$i - 1} * #{$gap-size-lg}) / #{$i});
+
+    @media (max-width: $breakpoint-tablet-large) {
+      grid-auto-columns: calc((100% - #{$half - 1} * #{$gap-size-lg}) / #{$half});
+    }
+    @media (max-width: $breakpoint-small) {
+      grid-auto-columns: 100%;
+    }
+  }
+}
+
+// The pagination placeholder (one stand-in dot) shows before mount at the breakpoints where Splide will show dots
+// (has-pages-* from collection.php), so their row is already there. Splide's CSS hides it until then.
+.collection-carousel:not(.is-initialized) {
+  &.has-pages-lg .splide__pagination {
+    display: flex;
+  }
+  @media (max-width: $breakpoint-tablet-large) {
+    &.has-pages-md .splide__pagination {
+      display: flex;
+    }
+  }
+  @media (max-width: $breakpoint-small) {
+    &.has-pages-sm .splide__pagination {
+      display: flex;
     }
   }
 }

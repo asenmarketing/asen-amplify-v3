@@ -20,8 +20,8 @@ $poster     = ! empty( $args['video_poster'] ) ? wp_get_attachment_image_url( $a
     <div class="banner-media banner-slideshow splide" aria-label="Banner images" data-splide="<?php echo esc_attr( wp_json_encode( $options ) ); ?>">
         <div class="splide__track">
             <ul class="splide__list">
-                <?php foreach ( $slides as $slide ) : ?>
-                <li class="splide__slide"><?php echo wp_get_attachment_image( $slide, 'asen-banner-general', false, array( 'sizes' => '100vw' ) ); ?></li>
+                <?php foreach ( array_values( $slides ) as $i => $slide ) : // Slides after the first are hidden at load: low priority, never lazy ?>
+                <li class="splide__slide"><?php echo wp_get_attachment_image( $slide, 'asen-banner-general', false, $i ? array( 'sizes' => '100vw', 'fetchpriority' => 'low' ) : array( 'sizes' => '100vw' ) ); ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>

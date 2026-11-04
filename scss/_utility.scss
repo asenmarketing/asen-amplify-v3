@@ -185,6 +185,43 @@ ul.list-two-columns {
     width: 100%;
     height: 100%;
   }
+
+  // YouTube facade (includes/embeds.php): thumbnail + play icon until clicked. The icon sits on arbitrary imagery, so
+  // it's white with a shadow to stay visible on light thumbnails.
+  .asen-youtube-facade {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $color-white;
+    cursor: pointer;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    svg {
+      position: relative;
+      width: clamp(3.5rem, 8vw, 6rem);
+      height: auto;
+      fill: currentColor;
+      filter: drop-shadow(0 0 0.75rem rgb(0 0 0 / 0.6));
+      transition: transform 150ms ease;
+    }
+    &:hover svg,
+    &:focus-visible svg {
+      transform: scale(1.1);
+    }
+  }
 }
 
 div.asen-debug {

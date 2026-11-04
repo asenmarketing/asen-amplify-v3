@@ -59,22 +59,14 @@ add_filter( 'wp_scss_needs_compiling', 'asen_scss_compile_lock', 99 );
 // and the collection partial enqueues the carousel only when a block renders in carousel layout.
 function asen_register_block_dependencies() {
     $uri = get_template_directory_uri();
-    wp_register_style( 'leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4' );
-    wp_register_script( 'leaflet', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), '1.9.4', true );
+    wp_register_style( 'leaflet', $uri . '/js/vendor/leaflet/leaflet.css', array(), '1.9.4' );
+    wp_register_script( 'leaflet', $uri . '/js/vendor/leaflet/leaflet.js', array(), '1.9.4', true );
     wp_register_style( 'splide', $uri . '/js/vendor/splide/splide.min.css', array(), '4.1.4' );
     wp_register_script( 'splide', $uri . '/js/vendor/splide/splide.min.js', array(), '4.1.4', true );
     wp_register_script( 'splide-auto-scroll', $uri . '/js/vendor/splide/splide-extension-auto-scroll.min.js', array( 'splide' ), '0.5.3', true );
     wp_register_script( 'asen-carousel', $uri . '/js/carousel.js', array( 'splide' ), filemtime( get_template_directory() . '/js/carousel.js' ), true );
 }
 add_action( 'init', 'asen_register_block_dependencies' );
-
-// Subresource integrity for the CDN-loaded Leaflet assets.
-add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-    return 'leaflet' === $handle ? str_replace( ' src=', ' integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" src=', $tag ) : $tag;
-}, 10, 2 );
-add_filter( 'style_loader_tag', function ( $tag, $handle ) {
-    return 'leaflet' === $handle ? str_replace( ' href=', ' integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" href=', $tag ) : $tag;
-}, 10, 2 );
 
 // Enable native WordPress Featured Image
 // Typically shouldn't be enabled unless importing old posts with Featured Images (ACF better option)
@@ -137,6 +129,19 @@ add_image_size( 'asen-banner-general', 1920, 0, false );
 add_filter( 'jpeg_quality', function () {
     return 75;
 } );
+
+// JPEG uploads are stored as WebP, full size and sub-sizes (WP keeps the uploaded JPEG as the original_image). WP falls
+// back to JPEG where the server's image editor can't write WebP. Applies to new uploads, or existing ones once their
+// sizes are regenerated. PNGs are left alone (logos, flat art).
+add_filter( 'image_editor_output_format', function ( $formats ) {
+    $formats['image/jpeg'] = 'image/webp';
+    return $formats;
+} );
+
+// WP's WebP default is 86, which makes files about as big as the JPEGs they replace.
+add_filter( 'wp_editor_set_quality', function ( $quality, $mime_type ) {
+    return 'image/webp' === $mime_type ? 75 : $quality;
+}, 10, 2 );
 
 if ( ! isset( $content_width ) ) {
     $content_width = 1480;

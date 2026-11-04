@@ -10,6 +10,7 @@ require_once get_template_directory() . '/includes/custom-post-types.php';
 require_once get_template_directory() . '/includes/menus.php';
 require_once get_template_directory() . '/includes/acf-customizations.php';
 require_once get_template_directory() . '/includes/gutenberg.php';
+require_once get_template_directory() . '/includes/embeds.php';
 require_once get_template_directory() . '/includes/patterns.php';
 require_once get_template_directory() . '/includes/block-bindings.php';
 require_once get_template_directory() . '/includes/theme-json.php';

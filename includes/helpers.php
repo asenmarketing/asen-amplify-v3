@@ -218,6 +218,16 @@ function asen_youtube_id( $value ) {
     return preg_match( '/^[A-Za-z0-9_-]{11}$/', $value ) ? $value : '';
 }
 
+// An eager image kept out of WP's fetchpriority/lazy-load heuristics, for header chrome like the logo: otherwise a logo
+// over 50,000px² is the first large image on the page and takes the one fetchpriority="high" from the banner.
+function asen_image_without_priority( $attachment_id, $size = 'large', $attr = array() ) {
+    $skip = fn() => array( 'decoding' => 'async' );
+    add_filter( 'pre_wp_get_loading_optimization_attributes', $skip );
+    $html = wp_get_attachment_image( $attachment_id, $size, false, $attr );
+    remove_filter( 'pre_wp_get_loading_optimization_attributes', $skip );
+    return $html;
+}
+
 // Banner overlay strength: 'default' (empty: Builders Only → Page Banners opacity), 'none', or a whole percentage 1–100.
 function asen_banner_overlay( $value ) {
     $value = asen_banner_overlay_legacy_value( $value );

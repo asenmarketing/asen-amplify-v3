@@ -10,7 +10,7 @@ $price       = get_field( 'price', $item->ID );
 ?>
 <article class="product-item">
     <?php if ( $image ) : ?>
-    <div class="item-media"><?php echo wp_get_attachment_image( $image, 'large' ); ?></div>
+    <div class="item-media"><?php echo wp_get_attachment_image( $image, 'large', false, array( 'sizes' => $args['image_sizes'] ?? '' ) ); ?></div>
     <?php endif; ?>
     <div class="item-copy">
         <h3 class="item-title"><?php echo esc_html( get_the_title( $item ) ); ?></h3>

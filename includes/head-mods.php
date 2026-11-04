@@ -16,6 +16,29 @@
 
     add_action( 'wp_head', 'asen_top_head', 1 );
 
+// Preconnect to the hosts the Font Snippets only reach after parsing CSS or running the kit script: Typekit's fonts
+// (CORS) and p.css, Font Awesome's kit assets. The snippets' own URLs need no hint, the preload scanner finds them.
+function asen_font_snippet_resource_hints( $urls, $relation ) {
+    if ( 'preconnect' !== $relation || ! class_exists( 'ACF' ) ) {
+        return $urls;
+    }
+    $snippets = (string) get_field( 'site_font_snippets', 'option' );
+    if ( str_contains( $snippets, 'use.typekit.net' ) ) {
+        $urls[] = array( 'href' => 'https://use.typekit.net', 'crossorigin' => 'anonymous' );
+        $urls[] = 'https://p.typekit.net';
+    }
+    if ( str_contains( $snippets, 'kit.fontawesome.com' ) ) {
+        $urls[] = array( 'href' => 'https://ka-p.fontawesome.com', 'crossorigin' => 'anonymous' );
+    }
+    return $urls;
+}
+add_filter( 'wp_resource_hints', 'asen_font_snippet_resource_hints', 10, 2 );
+
+// No emoji detection script / styles on the front end; browsers render emoji natively.
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
     function asen_head_code() {
 
     if ( class_exists( 'ACF' ) ):

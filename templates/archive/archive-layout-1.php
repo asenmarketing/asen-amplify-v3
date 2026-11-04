@@ -3,8 +3,14 @@
     $title = $post_type->label;
     $slug = $post_type->name;
     $singular_title = $post_type->labels->singular_name;
+    $layout = get_field( $slug . '_archive_items_layout', 'option' );
+    // Image slot widths from _archives.scss (32% / 48% / 100% of a 1600px max container).
+    $image_sizes = array(
+        'three-columns' => '(max-width: 640px) 100vw, (max-width: 1024px) 48vw, (max-width: 1600px) 32vw, 512px',
+        'two-columns'   => '(max-width: 640px) 100vw, (max-width: 1600px) 48vw, 768px',
+    )[ $layout ] ?? '';
 ?>
-<article class="asen-archive grid-layout-<?php the_field($slug . '_archive_items_layout', 'option'); ?>">
+<article class="asen-archive grid-layout-<?php echo esc_attr( $layout ); ?>">
     <?php get_template_part( 'templates/block/partials/banner', null, asen_banner_defaults( array(
         'title'    => get_field( $slug . '_archive_custom_title', 'option' ) ?: $title,
         'subtitle' => get_field( $slug . '_archive_custom_subtitle', 'option' ),
@@ -33,7 +39,7 @@
                         >
                             <header>
                                 <span class="thumb" <?php echo $image_attribute; ?>>
-                                    <?php echo wp_get_attachment_image( get_field($image_slug, $item), 'large' ); ?>
+                                    <?php echo wp_get_attachment_image( get_field($image_slug, $item), 'large', false, array_filter( array( 'sizes' => $image_sizes ) ) ); ?>
                                     <span class="overlay"></span>
                                 </span>
                                 <span class="copy">
