@@ -3,6 +3,10 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.8.1 — 2026-11-13
+
+- Local Novamira (`includes/mu-plugins/asen-local-novamira.php`): the active state now lives only in the marker file (`app/.asen-novamira-active`). Novamira is added to `active_plugins` on read while the marker exists and stripped from every write, so the local database never lists it and a database pushed to the server no longer activates it there (3.5.0 re-activated it in the database after a pull). Activate / Deactivate still work normally, a database that still lists it is migrated on the next local request, and after a pull it is active on the first request. A server that already has it active needs it deactivated once by hand.
+
 ## 3.8.0 — 2026-11-04
 
 Mobile performance.
