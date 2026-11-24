@@ -1,221 +1,183 @@
-// Standard Footer Styling
-footer.site-footer {
+// templates/footer/footer.php. Colors and font sizes are the --footer-* component variables (Footer Options).
+.site-footer {
   img {
     height: var(--footer-logo-height);
     width: auto;
     max-width: 100%;
     max-height: 260px;
   }
-  .top {
-    padding: 80px $site-overall-gutter 80px;
-    @include site-overall-gutter-small;
-    background-color: var(--footer-bg);
+
+  .inside {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: $site-overall-max-width;
+    margin: 0 auto;
 
     @media (max-width: $breakpoint-footer-tablet-small) {
-      padding-top: 50px;
-      padding-bottom: 50px;
-    }
-
-    .inside {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      max-width: 1420px;
-      width: 100%;
-      margin: 0 auto;
-
-      @media (max-width: $breakpoint-footer-tablet-small) {
-        flex-direction: column;
-        align-items: center;
-        gap: 3rem;
-      }
-    }
-
-    .column {
-      min-width: 33%;
-
-      @media (max-width: $breakpoint-footer-tablet-small) {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-    }
-    .column-1 {
-      min-width: fit-content;
-      display: flex;
-      gap: 2rem;
-
-      @media (max-width: $breakpoint-footer-laptop-small) {
-        width: 18%;
-        // margin-bottom: 50px;
-      }
-
-      ul {
-        padding-left: 0;
-      }
-      li {
-        list-style: none;
-      }
-
-      li.email {
-        padding-top: 1.5rem;
-      }
-      li.phone {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        i {
-          font-size: calc(var(--footer-font-size) * 0.75);
-        }
-      }
-    }
-    .column-2 {
-      display: flex;
-      justify-content: center;
-      gap: 6em;
-
-      @media (max-width: $breakpoint-footer-tablet-small) {
-        gap: 1.5rem;
-      }
-
-      ul {
-        padding-left: 0;
-      }
-    }
-
-    p {
-      color: var(--footer-color);
-      font-size: var(--footer-font-size);
-
-      &.contact-address {
-        margin-bottom: 25px;
-        line-height: 1.3;
-      }
-    }
-    a {
-      color: var(--footer-color);
-      font-size: var(--footer-font-size);
-      display: inline-block;
-      transition: color 100ms ease;
-
-      &:hover {
-        color: var(--footer-hover-color);
-      }
-    }
-    ul {
-      margin: 0;
-      list-style: none;
-
-      li {
-        font-size: var(--footer-font-size);
-        padding-bottom: 5px;
-      }
+      flex-direction: column;
+      align-items: center;
     }
   }
 
-  // Standard + Mailing List Footer Styling
+  // Top: logo + contact info, menus, optional mailing list.
+  .top {
+    padding: $spacing-lg $site-overall-gutter;
+    @include site-overall-gutter-small;
+    background-color: var(--footer-bg);
+  }
+
+  .top .inside {
+    flex-wrap: wrap;
+
+    @media (max-width: $breakpoint-footer-tablet-small) {
+      gap: $gap-size-xl;
+    }
+  }
+
+  .column {
+    min-width: 33%;
+
+    @media (max-width: $breakpoint-footer-tablet-small) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .column-1 {
+    display: flex;
+    gap: $gap-size-lg;
+    min-width: fit-content;
+
+    @media (max-width: $breakpoint-footer-laptop-small) {
+      width: 18%;
+    }
+  }
+
+  .column-2 {
+    display: flex;
+    justify-content: center;
+    gap: $gap-size-xxl;
+
+    @media (max-width: $breakpoint-footer-tablet-small) {
+      gap: $gap-size-md;
+    }
+  }
+
+  .top p,
+  .top a {
+    color: var(--footer-color);
+    font-size: var(--footer-font-size);
+  }
+
+  .top a {
+    display: inline-block;
+    transition: color 100ms ease;
+
+    &:hover {
+      color: var(--footer-hover-color);
+    }
+  }
+
+  .contact-address {
+    margin-bottom: $gap-size-md;
+    line-height: $line-height-xl;
+  }
+
+  .top ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .top li {
+    padding-bottom: 0.25em;
+    font-size: var(--footer-font-size);
+  }
+
   .footer-mailing-list-container {
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     h5 {
-      color: var(--footer-mailing-title-color);
+      margin-bottom: $gap-size-xs;
       font-size: var(--footer-mailing-title-size);
-      line-height: 1.3;
-      margin-bottom: 5px;
+      line-height: $line-height-xl;
+      color: var(--footer-mailing-title-color);
     }
+
     p {
-      color: var(--footer-mailing-subtitle-color);
       font-size: var(--footer-mailing-subtitle-size);
+      color: var(--footer-mailing-subtitle-color);
     }
   }
 
+  // Bottom bar: copyright + social links.
   .bottom {
-    background-color: var(--footer-bottom-bg);
-    padding: 30px $site-overall-gutter 30px;
+    padding: $spacing-sm $site-overall-gutter;
     @include site-overall-gutter-small;
+    background-color: var(--footer-bottom-bg);
+  }
+
+  .bottom .inside {
+    align-items: center;
 
     @media (max-width: $breakpoint-footer-tablet-small) {
-      padding-top: 50px;
-      padding-bottom: 50px;
+      gap: $gap-size-xs;
     }
+  }
 
-    .inside {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1420px;
-      width: 100%;
-      margin: 0 auto;
+  .bottom p,
+  .bottom a {
+    margin: 0;
+    color: var(--footer-bottom-color);
+  }
 
-      @media (max-width: $breakpoint-footer-tablet-small) {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
+  .bottom a {
+    font-size: var(--footer-bottom-font-size);
+
+    &:hover {
+      color: var(--footer-bottom-hover-color);
     }
-    a {
-      margin: 0;
-      color: var(--footer-bottom-color);
-      font-size: var(--footer-bottom-font-size);
+  }
 
-      &:hover {
-        color: var(--footer-bottom-hover-color);
-      }
+  .copyright {
+    display: flex;
+    align-items: center;
+    font-size: var(--footer-bottom-font-size);
+
+    @media (max-width: $breakpoint-small) {
+      flex-direction: column;
+      gap: $gap-size-xs;
     }
+  }
 
-    p {
-      margin: 0;
-      color: var(--footer-bottom-color);
+  // Separator icon (Footer Options) and the privacy link, sized against the copyright text.
+  .copyright i {
+    padding: 0 1.2em;
+    font-size: 0.33em;
+  }
 
-      &.copyright {
-        display: flex;
-        align-items: center;
-        font-size: var(--footer-bottom-font-size);
+  .privacy-link {
+    padding-left: 0.33em;
+  }
 
-        @media (max-width: 500px) {
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
+  .site-social {
+    display: flex;
+    gap: $gap-size-md;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
-        i {
-          padding: 0 6px;
-          font-size: 5px;
-        }
-
-        a.privacy-link {
-          padding-left: 5px;
-        }
-      }
-    }
-
-    ul.site-social {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      @media (max-width: $breakpoint-footer-laptop-small) {
-        padding-right: 0;
-      }
-      li {
-        display: inline-block;
-        padding: 0 10px;
-        @media (max-width: $breakpoint-footer-tablet-small) {
-          &:first-child {
-            padding-left: 0;
-          }
-        }
-        a {
-          font-size: var(--footer-social-size);
-          transition: color 100ms ease;
-        }
-      }
-    }
+  // After `.bottom a` on purpose: same specificity, and the icon size has to win.
+  .site-social a {
+    font-size: var(--footer-social-size);
+    transition: color 100ms ease;
   }
 }

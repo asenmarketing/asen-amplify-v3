@@ -47,13 +47,12 @@
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 300ms ease;
-
-    .answer-inner {
-      overflow: hidden;
-    }
   }
-  .faq.is-open .answer {
+  .is-open .answer {
     grid-template-rows: 1fr;
+  }
+  .answer-inner {
+    overflow: hidden;
   }
   .answer-inner > :last-child {
     margin-bottom: $gap-size-sm;

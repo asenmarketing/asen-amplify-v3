@@ -85,13 +85,13 @@ input[type="submit"] {
     user-select: none;
     background-color: var(--button-bg);
     padding: var(--button-padding-y) var(--button-padding-x);
-    font-size: 23px !important;
-    line-height: 1 !important;
+    font-size: 23px;
+    line-height: 1;
 
     transition: background-color 150ms ease, color 150ms ease;
 
     @media (max-width: $breakpoint-tablet-small) {
-      font-size: 21px !important;
+      font-size: 21px;
     }
 
     &:hover {

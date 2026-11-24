@@ -1,8 +1,9 @@
 // Shop Page
+// .woocommerce on the single: the theme's own "product" post type also gets body.single-product (see _singles.scss).
 
 body.woocommerce.archive .main-content,
 body.asen-is-woo-archive .main-content,
-body.single-product .main-content {
+body.woocommerce.single-product .main-content {
   max-width: 1400px;
   width: 85%;
   margin: 0 auto;

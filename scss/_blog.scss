@@ -1,135 +1,90 @@
-body.blog main,
-body.category main {
-  padding: 2% $site-overall-gutter;
-  @include site-overall-gutter-small;
+// Blog archive (templates/blog/archive.php, used by home.php and category.php), the teaser card
+// (templates/blog/single-teaser.php) and the single post (single-post.php).
 
-  > .inside {
-    max-width: 1280px;
-    margin: 0 auto;
+// The category select, the search field and its button share one height.
+$blog-filter-height: 58px;
 
-    > .columns {
-      display: flex;
-      justify-content: space-between;
-
-      @media (max-width: $breakpoint-tablet-large) {
-        flex-direction: column;
-      }
-    }
-
-    .blog-header {
-      font-weight: 300;
-      // margin-bottom: 50px;
-      @include site-vertical-margin-dynamic($top: null, $bottom: 60px);
-
-      h1 {
-        color: #000;
-        text-align: center;
-      }
-      p {
-        text-align: center;
-      }
-    }
+body.blog,
+body.category {
+  main {
+    padding: $spacing-sm $site-overall-gutter;
+    @include site-overall-gutter-small;
   }
-}
 
-body.blog main,
-body.category main {
+  main > .inside {
+    max-width: $container-width-xl;
+    margin: 0 auto;
+  }
+
+  .blog-header {
+    margin-bottom: $spacing-md;
+    text-align: center;
+  }
+
   .top-row {
-    width: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 27px;
+    padding-bottom: $gap-size-md;
 
     @media (max-width: $breakpoint-tablet-small) {
       flex-direction: column;
+      gap: $gap-size-sm;
     }
+  }
 
-    .categories-dropdown {
-      width: 32%;
-      // margin-bottom: 12px;
+  .categories-dropdown {
+    width: 32%;
 
-      @media (max-width: $breakpoint-tablet-small) {
-        width: 100%;
-        margin-bottom: 12px;
-      }
-
-      form select {
-        font-size: 20px !important;
-        background-position: calc(100% - 25px) center;
-        height: 58px;
-        color: #101b49;
-        font-weight: 400;
-        padding: 1px 0 0 25px;
-        width: 100%;
-        font-size: 17px;
-        font-family: "trevor", sans-serif;
-
-        @media (max-width: $breakpoint-tablet-large) {
-          display: block;
-        }
-      }
+    @media (max-width: $breakpoint-tablet-small) {
+      width: 100%;
     }
+  }
 
-    form.search-form {
-      width: 66%;
-      position: relative;
+  .categories-dropdown select {
+    display: block;
+    width: 100%;
+    height: $blog-filter-height;
+    padding: 0 0 0 $gap-size-md;
+    font-size: $font-size-sm;
+    background-position: calc(100% - #{$gap-size-md}) center;
+  }
 
-      @media (max-width: $breakpoint-tablet-small) {
-        width: 100%;
-      }
+  .top-row .search-form {
+    position: relative;
+    width: 66%;
 
-      label {
-        width: 100%;
-        display: block;
+    @media (max-width: $breakpoint-tablet-small) {
+      width: 100%;
+    }
+  }
 
-        margin-bottom: 0;
-        flex: 1;
-      }
+  .top-row label {
+    display: block;
+    margin-bottom: 0;
+  }
 
-      input[type="search"] {
-        border: none;
-        background-color: #ededed;
-        padding: 17px 60px 14px 25px !important;
-        width: 100%;
-        height: 58px;
-        background: transparent;
-        color: #000 !important;
-        font-size: 19px;
-        font-weight: 400;
-        font-family: "trevor", sans-serif;
+  // Right padding leaves room for the button, which sits on top of the field.
+  .top-row .search-field {
+    width: 100%;
+    height: $blog-filter-height;
+    padding: 0 $blog-filter-height 0 $gap-size-md;
+    font-size: $font-size-sm;
+  }
 
-        &::placeholder {
-          color: #9f9f9f;
-          font-size: 20px !important;
-        }
-      }
-      button[type="submit"] {
-        background-color: transparent !important;
-        margin-bottom: 0;
-        padding: 0;
-        position: absolute;
-        overflow: hidden;
-        width: 58px;
-        height: 58px;
-        color: #000;
-        right: 5px;
-        top: 0;
-        font-size: 19px !important;
+  .top-row .search-submit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $blog-filter-height;
+    height: $blog-filter-height;
+    padding: 0;
+    font-size: $font-size-sm;
+    color: $color-text;
+    background-color: transparent;
 
-        i {
-          padding-top: 4px;
-        }
-
-        &:hover {
-          color: #c97807;
-
-          &:before {
-            opacity: 0;
-          }
-        }
-      }
+    &:hover {
+      color: var(--link-hover-color);
     }
   }
 
@@ -140,7 +95,8 @@ body.category main {
   }
 }
 
-article.asen-blog-single-teaser {
+// Teaser card
+.asen-blog-single-teaser {
   position: relative;
   width: 32%;
 
@@ -150,462 +106,205 @@ article.asen-blog-single-teaser {
   }
   @media (max-width: $breakpoint-small) {
     width: 100%;
-    margin-bottom: 3%;
   }
 
   > a {
     display: flex;
-    width: 100%;
-    height: 100%;
     flex-direction: column;
     justify-content: space-between;
-
-    &:hover {
-      .image {
-        transition: transform 1500ms ease;
-        transform: scale(1.1);
-      }
-
-      .image:after {
-        opacity: 0.45;
-      }
-
-      .category-icon-container img {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
-    }
-    // For touch screens.
-    @media (hover: none) {
-      .image:before {
-        opacity: 0.45;
-      }
-      .banner img {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
-    }
+    width: 100%;
+    height: 100%;
   }
 
   header {
     display: flex;
     flex-direction: column;
-    margin-bottom: 22px;
+    margin-bottom: $gap-size-md;
   }
 
-  h2 {
-    font-size: 29px;
-    line-height: 1.1;
-
-    @media (max-width: $breakpoint-small) {
-      font-size: 22px;
-    }
+  .entry-title {
+    font-size: $font-size-lg;
+    line-height: $line-height-md;
   }
 
+  // 5:3 image slot.
   .banner {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 0;
-    padding-top: 60%; // ADJUSTS HEIGHT OF TEASER IMAGE
-    margin-bottom: 10px;
-    text-align: center;
+    padding-top: 60%;
+    margin-bottom: $gap-size-xs;
     overflow: hidden;
-    border-bottom: 1px solid #f1f1f1;
-
-    @media (max-width: $breakpoint-small) {
-      width: 100%;
-    }
+    border-bottom: 1px solid $gray-200;
   }
 
   .image {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
+    inset: 0;
     transition: transform 1000ms ease;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    &:after {
+
+    // Hover tint.
+    &::after {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgb(83, 91, 106);
-      z-index: 0;
+      inset: 0;
+      background: $gray-700;
       opacity: 0;
       transition: opacity 200ms ease;
     }
 
     img {
+      position: relative;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      position: relative;
     }
+  }
+
+  > a:hover .image {
+    transform: scale(1.1);
+    transition-duration: 1500ms;
+  }
+  > a:hover .image::after {
+    opacity: 0.45;
   }
 
   .meta {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    padding: 0 0 9px;
+    padding-bottom: $gap-size-xs;
   }
 
   h4,
   time {
-    color: $gray-700;
-    line-height: 1;
     margin: 0;
     padding: 0;
-    font-size: 16px;
-  }
-  span.separator {
-    font-weight: 200;
-    line-height: 17px;
-    margin: 0 7px;
-
-    // font-size: 8px; // Set Custom Height for Separator
+    font-size: $font-size-xs;
+    line-height: $line-height-sm;
+    color: $gray-700;
   }
 
-  footer.footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px 25px;
+  .separator {
+    margin: 0 $gap-size-xs;
   }
 }
 
-.asen-blog-breadcrumbs {
-  padding: 0;
-  max-width: 1024px;
-  margin: auto;
+// Single post
+body.single-post main > .inside {
+  max-width: $container-width-xl;
+  margin: 0 auto $spacing-lg;
+  padding: 0 $site-overall-gutter;
+  @include site-overall-gutter-small;
+}
+
+.blog-banner {
+  position: relative;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  min-height: 57vh;
+  margin-bottom: $spacing-lg;
+  padding: 8% $site-overall-gutter 6%;
+  overflow: hidden;
 
-  font-weight: 300;
-  font-size: 17px;
-  line-height: 1;
-  color: #000;
-  font-family: "trevor", sans-serif;
+  .banner-image {
+    position: absolute;
+    inset: 0;
+  }
 
-  // @media (max-width: $breakpoint-tablet-small) {
-  //     padding: 0 0 5%;
-  // }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
 
-  p#breadcrumbs {
-    max-width: 1024px;
-    //margin: 0 auto;
-    font-weight: 300;
-    font-size: 17px;
-    line-height: 1;
-    text-align: left;
-    color: #000;
-    font-family: "trevor", sans-serif;
-    padding-right: 7px;
+// Yoast breadcrumbs plus the post date. Sizes inside are em, so they follow the font size.
+.asen-blog-breadcrumbs {
+  display: flex;
+  max-width: $container-width-md;
+  margin: auto;
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
 
-    & > span > span {
-      padding: 5px;
-    }
+  p {
+    padding-right: 0.4em;
+    font-size: inherit;
+    line-height: inherit;
+  }
 
-    i {
-      line-height: 1;
-      color: #000;
-      margin: 0 9px;
-      vertical-align: middle;
-      font-size: 7px;
-    }
+  span span {
+    padding: 0.3em;
+  }
+
+  i {
+    margin: 0 1.3em;
+    font-size: 0.4em;
+    vertical-align: middle;
   }
 
   a {
-    color: #000;
-    transition: color 80ms ease;
+    color: inherit;
 
     &:hover {
-      color: #c97807;
+      color: var(--link-hover-color);
     }
     @media (max-width: $breakpoint-tablet-small) {
       display: inline-block;
-      margin-bottom: 8px;
+      margin-bottom: $gap-size-xs;
     }
   }
+
   .breadcrumb_last {
-    opacity: 0.5;
     display: none;
   }
 }
 
-article.blog-post {
-  header {
+// Child combinators keep these off the .inside / .title of blocks placed in the post content.
+.blog-post {
+  > .inside {
+    max-width: $container-width-md;
+    margin: 0 auto;
+  }
+
+  > .inside > .title {
+    font-size: $heading-h4;
+  }
+}
+
+.share-container {
+  margin-top: $spacing-lg;
+
+  .content {
     display: flex;
     flex-direction: column;
-
-    .featured-image {
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 580px;
-      margin-bottom: 20px;
-
-      @media (max-width: $breakpoint-tablet-large) {
-        height: 500px;
-      }
-      @media (max-width: $breakpoint-tablet-small) {
-        padding-top: 24%;
-        padding-bottom: 24%;
-        height: auto;
-      }
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      }
-    }
-
-    .meta {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding-bottom: 45px;
-
-      @media (max-width: 800px) {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      a {
-        color: inherit;
-        transition: color 80ms ease;
-      }
-
-      span.separator {
-        font-weight: 700;
-        font-size: 7px;
-        line-height: 18px;
-        color: $gray-700;
-        margin: 0 16px;
-
-        @media (max-width: 800px) {
-          display: none;
-        }
-      }
-      a.primary-category {
-        font-size: 18px;
-        line-height: 1;
-
-        &:hover {
-          color: $gray-700;
-        }
-
-        @media (max-width: 800px) {
-          margin-bottom: 12px;
-        }
-      }
-
-      time.date {
-        font-size: 18px;
-        line-height: 1;
-      }
-
-      a.primary-category,
-      time.date {
-        @media (max-width: 800px) {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-      }
-    }
-
-    h1.title {
-      text-align: center;
-    }
-  }
-}
-
-body.single-post {
-  main {
-    > .inside {
-      max-width: 1280px;
-      margin: 0 auto;
-      margin-bottom: 8%;
-      padding-left: $site-overall-gutter;
-      padding-right: $site-overall-gutter;
-      @include site-overall-gutter-small;
-    }
   }
 
-  header.blog-banner {
-    @include site-vertical-margin-dynamic(null, 95px);
-    position: relative;
-    background-position: center;
-    background-size: cover;
+  .divider-line {
+    max-width: $gap-size-xxl;
+    margin-bottom: $gap-size-md;
+    border-top: 3px solid currentColor;
+  }
+
+  p {
+    margin-bottom: $gap-size-xs;
+    font-size: $font-size-sm;
+    font-weight: 500;
+  }
+
+  .site-social {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    padding: 8% $site-overall-gutter 6%;
-    // min-height: 657px;
-    min-height: 57vh;
-
-    .banner-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      // UNHIDE IF YOU WANT A GRADIENT AT TOP OF BANNER
-      // FOR WHEN POST HEADER IS BEHIND MENU
-
-      // &::before {
-      //   background: linear-gradient(
-      //     180deg,
-      //     rgba(0, 0, 0, 0.7) 0,
-      //     rgba(0, 0, 0, 0) 56%
-      //   );
-
-      //   content: "";
-      //   position: absolute;
-      //   width: 100%;
-      //   top: 0;
-      //   left: 0;
-      //   right: 0;
-      //   height: 55%;
-      //   z-index: 1;
-      // }
-
-      img {
-        object-fit: cover;
-        object-position: center;
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  h1.title {
-    font-size: 70px;
-
-    @media (max-width: $breakpoint-laptop-small) {
-      font-size: 48px;
-    }
-    @media (max-width: $breakpoint-small) {
-      font-size: 37px;
-    }
-  }
-
-  article.blog-post {
-    .inside {
-      max-width: 1024px;
-      margin: 0 auto;
-
-      .share-container {
-        margin-top: 90px;
-
-        .content {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .divider-line {
-          max-width: 60px;
-          border-top: 3px solid #000;
-          margin-bottom: 20px;
-        }
-
-        p {
-          font-family: "trevor", sans-serif;
-          font-weight: 500;
-          font-size: 18px;
-          margin-bottom: 10px;
-        }
-
-        ul.site-social {
-          padding-left: 0;
-          list-style: none;
-          display: flex;
-          margin: 0;
-
-          li {
-            padding: 10px 3px;
-
-            &:first-child {
-              padding-left: 0;
-            }
-
-            a {
-              color: #000;
-              padding: 0 6px;
-
-              &:hover {
-                color: #c97807;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-// TODO: Blog sharing or sharing in general.
-.asen-blog-sharing-container {
-  padding: 50px 0 0 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  h6 {
+    gap: $gap-size-sm;
     margin: 0;
-  }
-  ul.site-social {
+    padding: $gap-size-xs 0;
     list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    li {
-      display: inline-block;
+  }
 
-      &:last-child {
-        a {
-          padding-right: 0;
-        }
-      }
-      a {
-        display: block;
-        height: 24px;
-        padding: 0 10px;
-        display: flex;
-        align-items: center;
-        svg {
-          height: 100%;
-          width: auto;
-          path {
-            fill: $gray-700;
-            transition: fill 100ms ease;
-          }
-        }
-        &:hover {
-          svg {
-            path {
-              fill: $gray-700;
-            }
-          }
-        }
-      }
+  a {
+    color: inherit;
+
+    &:hover {
+      color: var(--link-hover-color);
     }
   }
 }

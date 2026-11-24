@@ -3,6 +3,19 @@
 Versions follow semver. A **major** bump means a child theme may need changes: renamed or removed blocks, field names,
 template parts, SCSS variables / mixins, CSS custom properties, or filters. Note the migration under the version.
 
+## 3.9.0 — 2026-11-24
+
+Specificity cleanup and tokenized page-template styles. The blog, footer, search, contact and CPT single templates look slightly different after this update; check them on each site.
+
+- **No `!important` in the form, button and blog styles** (14 removed). A layered `!important` beats unlayered CSS, so a child theme could not override these at all. A child rule that sets the font size or line height of form submit buttons was ignored before and applies now.
+- **Form controls:** the chained `input:not():not()…` filters are one `:not()` selector list, which drops their specificity from 0,9,2 to 0,3,2. Nothing renders differently; rules in the same layer no longer need `!important` to beat them.
+- **Block partials:** flatter selectors in Tabbed Content (`.asen-tabbed-content .tab`), FAQs and Icon Grid, so a child rule that wins on the front end also wins in the editor, where there are no layers.
+- **Page-template partials use the tokens:** `_blog`, `_footer`, `_contact`, `_search` and the new `_singles` take colors, font sizes, spacing and max widths from theme.json and the component variables, with selectors rooted on the template's own class. Gone: the "trevor" font, black text, the navy category select and the orange hovers (text is the theme text color, hovers are `--link-hover-color`). Sizes moved to the nearest preset: footer top padding 80px → `spacing-lg` (100px on desktop), footer bottom bar 50px → `spacing-sm` on tablets and phones (22px), post title → `heading-h4`, teaser title 29px → `font-size-lg`, max widths 1280 / 1024 / 1420px → 1270 / 1000 / 1400px.
+- **Fixed: service and product singles were unstyled.** Their rules targeted `body.single-services` / `body.single-products`; the post types are `service` and `product`. They share the team single's two columns now.
+- **Fixed:** the theme's product single picked up the WooCommerce wrapper rule (85% width, 100px padding), because both use `body.single-product`. That rule now needs `body.woocommerce` too.
+- **Fixed:** the Contact template's right column collapsed into one row below 1024px; it stacks.
+- **Removed:** rules for markup the templates no longer print (`.asen-blog-sharing-container`, `article.blog-post header …`, `.headshot-container`, the footer's `li.email` / `li.phone`, the contact `.form-container`), about half of those partials. `_team.scss`, `_services.scss` and `_products.scss` are merged into `_singles.scss`: a child that imported one of them by name imports `singles` instead.
+
 ## 3.8.1 — 2026-11-13
 
 - Local Novamira (`includes/mu-plugins/asen-local-novamira.php`): the active state now lives only in the marker file (`app/.asen-novamira-active`). Novamira is added to `active_plugins` on read while the marker exists and stripped from every write, so the local database never lists it and a database pushed to the server no longer activates it there (3.5.0 re-activated it in the database after a pull). Activate / Deactivate still work normally, a database that still lists it is migrated on the next local request, and after a pull it is active on the first request. A server that already has it active needs it deactivated once by hand.

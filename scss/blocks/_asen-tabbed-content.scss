@@ -16,16 +16,16 @@
     justify-content: center;
     gap: $gap-size-xs;
 
-    .tab {
-      flex: 1 1 auto;
-    }
-    .tab[aria-selected="true"] {
-      background-color: $gray-700;
-    }
-
     @media (max-width: $breakpoint-small) {
       flex-direction: column;
     }
+  }
+
+  .tab {
+    flex: 1 1 auto;
+  }
+  .tab[aria-selected="true"] {
+    background-color: $gray-700;
   }
 
   .tab-dropdown {

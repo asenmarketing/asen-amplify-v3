@@ -1,0 +1,75 @@
+// CPT single templates: single-team.php and single-product.php (two columns inside the article) and
+// single-service.php (a title band, then the same two columns). Blog posts are in _blog.scss.
+.team-member-post,
+.product-post,
+.service-post .primary-copy {
+  padding: $spacing-md $site-overall-gutter $spacing-sm;
+  @include site-overall-gutter-small;
+
+  .inside {
+    display: flex;
+    justify-content: space-between;
+    max-width: $container-width-xxl;
+    margin: 0 auto;
+
+    @media (max-width: $breakpoint-tablet-large) {
+      flex-direction: column;
+    }
+  }
+
+  .left {
+    width: 36%;
+
+    @media (max-width: $breakpoint-laptop-small) {
+      width: 29%;
+    }
+  }
+
+  .right {
+    width: 60%;
+
+    @media (max-width: $breakpoint-laptop-small) {
+      width: 68%;
+    }
+  }
+
+  .left,
+  .right {
+    @media (max-width: $breakpoint-tablet-large) {
+      width: 100%;
+    }
+  }
+
+  .left img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+// Title + the line under it (position / price).
+.team-member-post,
+.product-post,
+.service-post {
+  header h1 {
+    font-size: $heading-h4;
+    line-height: $line-height-sm;
+  }
+
+  header p {
+    font-size: $font-size-xl;
+    line-height: $line-height-sm;
+    opacity: 0.75;
+  }
+}
+
+.service-post header {
+  padding: 0 $site-overall-gutter;
+  @include site-overall-gutter-small;
+  background-color: $gray-200;
+
+  .inside {
+    max-width: $container-width-xxl;
+    margin: 0 auto;
+    padding: $spacing-md 0 $spacing-sm;
+  }
+}

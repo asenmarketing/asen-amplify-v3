@@ -1,107 +1,50 @@
+// custom-contact.php: form on the left, contact details on the right, stacked on tablets.
 .asen-contact-page {
   .primary-copy {
-    padding: 0 $site-overall-gutter 0;
+    padding: 0 $site-overall-gutter;
     @include site-overall-gutter-small;
-    .columns {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-      @media (max-width: $breakpoint-tablet-large) {
-        flex-direction: column;
-      }
-      .left {
-        width: 54%;
+  }
 
-        a {
-          background: transparent;
-          color: inherit;
-          transition: color 200ms ease;
-          -webkit-box-decoration-break: unset;
-          box-decoration-break: unset;
-          &:hover {
-            color: $gray-800;
-          }
-        }
-      }
-      .right {
-        width: 40%;
-        @media (max-width: $breakpoint-tablet-large) {
-          margin-top: 3%;
-          display: flex;
-          justify-content: space-between;
-        }
-      }
-      .left,
-      .right {
-        position: relative;
-        @media (max-width: $breakpoint-tablet-large) {
-          width: 100%;
-        }
-      }
-    }
-    .form-container {
-      background-color: rgba(#fff, 0.85);
-      box-shadow: 0 0 40px rgba(#000, 0.25);
-      padding: 12% 7%;
-      width: 100%;
+  .columns {
+    display: flex;
+    justify-content: space-between;
+    max-width: $site-overall-max-width;
+    margin: 0 auto;
 
-      @media (max-width: $breakpoint-tablet-large) {
-        background-color: transparent;
-        box-shadow: none;
-        padding: 0;
-      }
-
-      h5 {
-        line-height: 1;
-        font-size: 60px;
-        padding-left: 20px;
-        margin-bottom: 30px;
-        @media (max-width: $breakpoint-tablet-large) {
-          padding-left: 0;
-          margin-bottom: 0;
-          padding-top: 25px;
-        }
-        @media (max-width: $breakpoint-tablet-small) {
-          font-size: 50px;
-        }
-      }
+    @media (max-width: $breakpoint-tablet-large) {
+      flex-direction: column;
+      gap: $gap-size-lg;
     }
   }
-  ul.site-social {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: flex-start;
-    li {
-      display: inline-block;
-      a {
-        display: block;
-        height: 26px;
-        padding: 0 20px;
-        display: flex;
-        align-items: center;
-        &:first-child {
-          padding-left: 0;
-        }
-        svg {
-          height: 100%;
-          width: auto;
-          path {
-            fill: $gray-700;
-            transition: fill 100ms ease;
-          }
-        }
-        &:hover {
-          svg {
-            path {
-              fill: $gray-800;
-            }
-          }
-        }
-      }
+
+  .left {
+    width: 54%;
+  }
+
+  .right {
+    width: 40%;
+  }
+
+  .left,
+  .right {
+    @media (max-width: $breakpoint-tablet-large) {
+      width: 100%;
     }
+  }
+
+  .left a {
+    color: inherit;
+
+    &:hover {
+      color: var(--link-hover-color);
+    }
+  }
+
+  .site-social {
+    display: flex;
+    gap: $gap-size-md;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 }
